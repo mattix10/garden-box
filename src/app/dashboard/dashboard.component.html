@@ -1,0 +1,17 @@
+<app-topbar></app-topbar>
+<router-outlet></router-outlet>
+<div class="container">
+  <div *ngIf="tiles" class="tiles-wrapper">
+    <ng-container *ngFor="let tile of tiles">
+      <div *ngIf="router.url == '/panel'">
+        <app-panel-menu-item [title]="tile.title" [iconUrl]="tile.iconUrl" [routerLink]="['/panel/',tile.link]">
+        </app-panel-menu-item>
+      </div>
+
+    </ng-container>
+  </div>
+</div>
+<app-bottom-bar></app-bottom-bar>
+
+
+<!-- <img src="../../../assets/icons/" -->

@@ -1,0 +1,17 @@
+.container {
+  div {
+    display: flex;
+    justify-content: center;
+
+    img {
+      margin: 20px 0;
+      width: 40%;
+    }
+  }
+
+  .indicator {
+    font-size: 2rem;
+    margin: 0 0 .5rem;
+    // font-size: $font-larger;
+  }
+}

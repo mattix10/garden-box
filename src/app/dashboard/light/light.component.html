@@ -1,0 +1,10 @@
+<div class="container">
+  <div>
+    <img src="../../../assets/icons/oswietlenie.svg">
+  </div>
+  <div class="indicator">{{value}}%</div>
+  <div class="slider-wrapper">
+    <mat-slider min="1" max="100" step="1" value="50" [(ngModel)]="value" autoTicks="false"></mat-slider>
+  </div>
+  <app-table [tableHeaderOne]="'Godzina'" [tableHeaderTwo]="'Oświetlenie'" [tableData]="lightData"></app-table>
+</div>

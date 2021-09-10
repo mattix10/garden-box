@@ -1,0 +1,16 @@
+<div class="wrapper">
+  <div routerLink="moje-konto">
+    <mat-icon [ngClass]="{'active-link': router.url === '/panel/moje-konto'}">person</mat-icon>
+    <!-- <img src="../../../assets/icons/person_black_24dp.svg"> -->
+  </div>
+  <div routerLink="/panel">
+    <mat-icon [ngClass]="{'active-link': router.url === '/panel'}">home</mat-icon>
+    <!-- <img src="../../../assets/icons/home_black_24dp.svg"> -->
+  </div>
+  <div routerLink="wyloguj" routerLinkActive="active-link">
+    <mat-icon>
+      logout
+    </mat-icon>
+    <!-- <img src="../../../assets/icons/logout_black_24dp.svg"> -->
+  </div>
+</div>
