@@ -1,10 +1,28 @@
-<div class="container">
-  <div>
-    <!-- <img src="./../../../assets/img/light.jpg"> -->
-    <img src="../../../assets/icons/wilgotnosc.svg">
-
+<div class="container tile">
+  <div class="icon-wrapper">
+    <mat-icon [inline]="true">water_drop</mat-icon>
   </div>
-  <div class="indicator">{{value}} g/m3</div>
+  <p class="text-center">Aktualna wartość</p>
+  <div class="current-value">{{currentHumidity}} g/m3</div>
+  <div class="mode">
+    <div>
+      Tryb ręczny
+    </div>
+    <div>
+      <mat-slide-toggle [(ngModel)]="mode">
+        {{mode ? 'Wł.' : 'Wył.'}}
+      </mat-slide-toggle>
+    </div>
+  </div>
+  <div class="mode">
+    <div>Zadana wartość</div>
+    <div *ngIf="slider">{{slider.value}} g/m3</div>
+  </div>
+  <div class="slider-wrapper">
+    <mat-slider min="sliderHumidity" max="100" step="2" [value]="sliderHumidity" autoTicks="false"
+      [displayWith]="formatLabel" [disabled]="!mode" (change)="updateValue($event)" #slider>
+    </mat-slider>
+  </div>
 
   <app-table [tableHeaderOne]="'Godzina'" [tableHeaderTwo]="'Wilgotność'" [tableData]="humidityData"></app-table>
 </div>

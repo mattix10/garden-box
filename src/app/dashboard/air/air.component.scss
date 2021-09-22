@@ -1,4 +1,7 @@
 .container {
+  max-width: 940px;
+  padding: 2rem;
+
   div {
     display: flex;
     justify-content: center;
@@ -9,7 +12,7 @@
     }
   }
 
-  .indicator {
+  .current-value {
     font-size: 2rem;
     margin: 0 0 .5rem;
     // font-size: $font-larger;

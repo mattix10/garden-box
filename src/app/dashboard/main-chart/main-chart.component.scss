@@ -1,0 +1,35 @@
+@import 'variables';
+
+.wrapper {
+  height: calc(100% - 60px);
+  padding: 15px;
+  margin: 15px;
+  cursor: auto;
+}
+
+h2 {
+  font-family: Montserrat-Bold;
+  font-size: $font-regular;
+  padding: .5rem;
+}
+
+.parameters-wrapper {
+  display: flex;
+  margin: .5rem 0;
+}
+
+.parameter-title {
+  padding: 10px;
+  margin: 0 10px 0 0;
+  color: $grey-light;
+  font-family: OpenSans-Regular;
+  font-size: $font-regular-small;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.selected {
+  background-color: #d5f1e4;
+  color: $green-dark;
+  font-family: OpenSans-SemiBold;
+}

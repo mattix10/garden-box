@@ -1,3 +1,5 @@
+@import 'variables';
+
 .tiles-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -10,7 +12,7 @@
 }
 
 .container {
-  display: flex;
+  // display: flex;
   justify-content: center;
   background: rgb(255, 255, 255);
   // background: linear-gradient(180deg, rgba(255, 255, 255, 1) 40%, rgba(229, 229, 229, 1) 100%, rgba(9, 9, 121, 1) 100%);
@@ -20,6 +22,109 @@
   // background: rgb(249, 255, 249);
   margin-bottom: 50px;
 }
+
+// dashboard fullwidth
+
+
+.side {
+  position: fixed;
+  height: 100%;
+}
+
+.content {
+  padding: 2rem 1rem;
+  margin-left: 250px;
+
+  @include media(desktop) {
+    padding: 3rem 8rem;
+  }
+
+  @include media(large) {
+    margin-left: 300px;
+  }
+
+}
+
+.top-dashboard {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  @include media(large) {
+    flex-direction: row;
+  }
+}
+
+.chart-wrapper {
+  // width: 100%;
+  // padding: 15px;
+  // margin: 15px;
+  // background-color: indianred;
+
+  @include media(large) {
+    width: 60%;
+  }
+}
+
+.parameters-wrapper {
+  // background-color: hotpink;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+  @include media(large) {
+    width: 40%;
+  }
+
+  .param {
+    margin: 15px;
+    width: calc(25% - 30px);
+
+    @include media(large) {
+      width: calc(50% - 30px);
+    }
+  }
+}
+
+
+.bottom-dashboard {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+  @include media(large) {
+    flex-direction: row;
+  }
+}
+
+.device-wrapper {
+  width: 50%;
+  // background-color: greenyellow;
+
+  @include media(large) {
+    width: 30%;
+  }
+}
+
+.info-wrapper {
+  width: 50%;
+  // background-color: rgb(92, 138, 92);
+
+  @include media(large) {
+    width: 20%;
+  }
+}
+
+.table-wrapper {
+  width: 100%;
+  // background-color: grey;
+
+  @include media(large) {
+    width: 50%;
+  }
+}
+
+
 
 // div {
 //   width: 90%;

@@ -5,6 +5,7 @@ import { DashboardComponent } from './dashboard.component';
 import { HumidityComponent } from './humidity/humidity.component';
 import { LightComponent } from './light/light.component';
 import { MyAccountComponent } from './my-account/my-account.component';
+import { ParameterComponent } from './parameter/parameter.component';
 import { SettingsComponent } from './settings/settings.component';
 import { StatsComponent } from './stats/stats.component';
 import { TemperatureComponent } from './temperature/temperature.component';
@@ -16,7 +17,7 @@ const childRoutes: Routes = [
   },
   {
     path: 'wilgotność',
-    component: HumidityComponent
+    component: ParameterComponent
   },
   {
     path: 'oświetlenie',
@@ -28,7 +29,7 @@ const childRoutes: Routes = [
   },
   {
     path: 'powietrze',
-    component: AirComponent
+    component: ParameterComponent
   },
   {
     path: 'ustawienia',

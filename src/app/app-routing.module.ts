@@ -4,11 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: '', loadChildren:  () => import('./home/home.module').then(mod => mod.HomeModule)
+  },
+  {
     path: 'panel', loadChildren:  () => import('./dashboard/dashboard.module').then(mod => mod.DashboardModule)
   },
   {
-    path: 'panel',
-    redirectTo: '/',
+    path: '',
+    redirectTo: '/zaloguj',
     pathMatch: 'full' 
   },
 ];

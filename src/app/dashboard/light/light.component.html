@@ -1,10 +1,22 @@
-<div class="container">
-  <div>
-    <img src="../../../assets/icons/oswietlenie.svg">
+<div class="container tile">
+  <div class="icon-wrapper">
+    <mat-icon [inline]="true">emoji_objects</mat-icon>
   </div>
-  <div class="indicator">{{value}}%</div>
+  <p class="text-center">Aktualna wartość</p>
+  <div class="current-value" *ngIf="slider">{{slider.value}} %</div>
+  <div class="mode">
+    <div>
+      Tryb ręczny
+    </div>
+    <div>
+      <mat-slide-toggle [(ngModel)]="mode">
+        {{mode ? 'Wł.' : 'Wył.'}}
+      </mat-slide-toggle>
+    </div>
+  </div>
   <div class="slider-wrapper">
-    <mat-slider min="1" max="100" step="1" value="50" [(ngModel)]="value" autoTicks="false"></mat-slider>
+    <mat-slider min="0" max="100" step="1" [value]="sliderLight" autoTicks="false" [displayWith]="formatLabel"
+      [disabled]="!mode" (change)="updateValue($event)" #slider></mat-slider>
   </div>
   <app-table [tableHeaderOne]="'Godzina'" [tableHeaderTwo]="'Oświetlenie'" [tableData]="lightData"></app-table>
 </div>

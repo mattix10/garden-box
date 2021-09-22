@@ -1,7 +1,41 @@
 <div class="container">
-  <div>
-    <img src="../../../assets/icons/temperatura.svg">
+  <div class="wrapper">
+    <div class="tile">
+      <div class="icon-wrapper">
+        <mat-icon [inline]="true">thermostat</mat-icon>
+      </div>
+
+      <p class="text-center">Aktualna wartość</p>
+      <div class="current-value text-center">{{currentTemperature}}°C</div>
+      <div class="control">
+        <div>
+          Tryb ręczny
+        </div>
+        <div>
+          <mat-slide-toggle [(ngModel)]="mode">
+            {{mode ? 'Wł.' : 'Wył.'}}
+          </mat-slide-toggle>
+        </div>
+      </div>
+      <div class="control">
+        <div>Zadana wartość</div>
+        <div *ngIf="slider">{{slider.value}}°C</div>
+      </div>
+      <div class="slider-wrapper">
+        <mat-slider min="24" max="30" step=".5" [value]="sliderTemperature" autoTicks="false"
+          [displayWith]="formatLabel" [disabled]="!mode" (change)="updateValue($event)" #slider>
+        </mat-slider>
+      </div>
+    </div>
+
+    <div class="tile">
+      <app-table [tableHeaderOne]="'Godzina'" [tableHeaderTwo]="'Temperatura'" [tableData]="temperatureData">
+      </app-table>
+    </div>
   </div>
-  <div class="indicator">{{value}}°C</div>
-  <app-table [tableHeaderOne]="'Godzina'" [tableHeaderTwo]="'Temperatura'" [tableData]="temperatureData"></app-table>
+  <div class="chart-wrapper tile">
+    <google-chart #google [data]="data" [type]="chartType.AreaChart" style="width: 100%; min-height: 300px"
+      [dynamicResize]="true" [options]="myOptions">
+    </google-chart>
+  </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren } from '@angular/core';
 import { MeasurementsService } from 'src/app/core/services/measurements.service';
 
 @Component({
@@ -8,14 +8,31 @@ import { MeasurementsService } from 'src/app/core/services/measurements.service'
 })
 export class HumidityComponent implements OnInit {
 
+  @ViewChildren('slider') slider: any;
+
   constructor(private measurementService: MeasurementsService) { }
 
-  value: any;
-
+  currentHumidity: any = 24;
   humidityData: any;
+  mode:boolean = false;
+  sliderHumidity: number = 26;
 
   ngOnInit(): void {
     this.humidityData = this.measurementService.getHumidity();
+  }
+
+  updateValue(event: any) {
+    this.slider.value = event?.value;
+  }
+
+
+  formatLabel(value: number | null) {
+    if (!value) {
+      return this.sliderHumidity;
+    }
+    this.sliderHumidity = value;
+   
+    return value;
   }
 
 }

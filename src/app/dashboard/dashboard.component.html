@@ -1,17 +1,47 @@
-<app-topbar></app-topbar>
-<router-outlet></router-outlet>
-<div class="container">
-  <div *ngIf="tiles" class="tiles-wrapper">
-    <ng-container *ngFor="let tile of tiles">
-      <div *ngIf="router.url == '/panel'">
-        <app-panel-menu-item [title]="tile.title" [iconUrl]="tile.iconUrl" [routerLink]="['/panel/',tile.link]">
-        </app-panel-menu-item>
-      </div>
-
-    </ng-container>
+<ng-container *ngIf="!isTabletResolution;">
+  <app-topbar></app-topbar>
+  <router-outlet *ngIf="router.url !== '/panel'"></router-outlet>
+  <div class="container" *ngIf="router.url == '/panel'">
+    <div class="tiles-wrapper">
+      <ng-container *ngFor="let item of menuItems">
+        <div *ngIf="item.category">
+          <app-panel-menu-item [title]="item.title" [iconUrl]="item.iconUrl" [routerLink]="['/panel/',item.link]">
+          </app-panel-menu-item>
+        </div>
+      </ng-container>
+    </div>
   </div>
-</div>
-<app-bottom-bar></app-bottom-bar>
+  <app-bottom-bar></app-bottom-bar>
+</ng-container>
 
+<ng-container *ngIf="isTabletResolution;">
+  <div class="side">
+    <app-sidenav></app-sidenav>
+  </div>
 
-<!-- <img src="../../../assets/icons/" -->
+  <div class="content">
+    <ng-container *ngIf="router.url == '/panel'">
+      <div class="top-dashboard">
+        <div class="chart-wrapper">
+          <app-main-chart></app-main-chart>
+        </div>
+        <div class="parameters-wrapper">
+          <app-main-parameter [parameter]="parameter" [routerLink]="['/panel', parameter.link]" class="param"
+            *ngFor="let parameter of parameters"></app-main-parameter>
+        </div>
+      </div>
+      <div class="bottom-dashboard">
+        <div class="device-wrapper">
+          <app-main-device></app-main-device>
+        </div>
+        <div class="info-wrapper">
+          <app-main-info></app-main-info>
+        </div>
+        <div class="table-wrapper">
+          <app-main-table></app-main-table>
+        </div>
+      </div>
+    </ng-container>
+    <router-outlet></router-outlet>
+  </div>
+</ng-container>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-bottom-bar',
@@ -8,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class BottomBarComponent implements OnInit {
 
-  constructor(public router: Router) { }
+  constructor(public router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
   }
@@ -16,6 +17,11 @@ export class BottomBarComponent implements OnInit {
   isActiveLink(exact: boolean) {
     console.log(this.router.url)
     return this.router.isActive('panel/', exact);
+}
+
+logout() {
+  this.authService.logout();
+  this.router.navigateByUrl('/zaloguj')
 }
 
 

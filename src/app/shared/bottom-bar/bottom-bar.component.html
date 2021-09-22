@@ -7,7 +7,7 @@
     <mat-icon [ngClass]="{'active-link': router.url === '/panel'}">home</mat-icon>
     <!-- <img src="../../../assets/icons/home_black_24dp.svg"> -->
   </div>
-  <div routerLink="wyloguj" routerLinkActive="active-link">
+  <div routerLinkActive="active-link" (click)="logout()">
     <mat-icon>
       logout
     </mat-icon>

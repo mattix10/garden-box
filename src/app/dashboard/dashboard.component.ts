@@ -1,39 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
-const TILES = [
-  {
-    iconUrl: '../../../assets/icons/temperatura.svg',
-    title: 'Temperatura',
-    link: 'temperatura'
-  },
-  {
-    iconUrl: '../../../assets/icons/oswietlenie.svg',
-    title: 'Oświetlenie',
-    link: 'oświetlenie'
-  },
-  {
-    iconUrl: '../../../assets/icons/wilgotnosc.svg',
-    title: 'Wilgotność',
-    link: 'wilgotność'
-  },
-  {
-    iconUrl: '../../../assets/icons/statystyki.svg',
-    title: 'Statystyki',
-    link: 'statystyki'
-  },
-  {
-    iconUrl: '../../../assets/icons/powietrze.svg',
-    title: 'Powietrze',
-    link: 'powietrze'
-  },
-  {
-    iconUrl: '../../../assets/icons/ustawienia.svg',
-    title: 'Ustawienia',
-    link: 'ustawienia'
-  }
-]
-
+import { MenuItemsService } from '../core/services/menu-items.service';
+import {BreakpointObserver} from '@angular/cdk/layout';
+import { Breakpoints } from '../core/enums/Breakpoints';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -41,13 +10,35 @@ const TILES = [
 })
 
 export class DashboardComponent implements OnInit {
-  tiles: any[] = [];
+  menuItems: any[] = [];
+  parameters: any;
+  isTabletResolution: boolean = false;
 
-  constructor(public router: Router) { 
-  }
+  constructor(public router: Router, private menuItemsService: MenuItemsService, public breakpointObserver: BreakpointObserver) { }
 
   ngOnInit(): void {
-    this.tiles = TILES;
+    this.getResolution();
+    this.menuItems = this.menuItemsService.getMenuItems();
+    this.getParameters();
+  }
+
+  getResolution() {
+    this.breakpointObserver.observe([
+      Breakpoints.Tablet
+        ]).subscribe(result => {
+          if (result.matches) {
+            this.isTabletResolution = true
+          } else {
+            this.isTabletResolution = false
+          }
+        });
+  }
+
+  getParameters() {
+    const parameters = this.menuItems.filter(item => item.category === 'parameters');
+    console.log(parameters)
+    this.parameters = parameters;
+    // return parameters;
   }
 
 }

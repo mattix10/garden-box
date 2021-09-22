@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren } from '@angular/core';
 import { MeasurementsService } from 'src/app/core/services/measurements.service';
 
 @Component({
@@ -8,13 +8,30 @@ import { MeasurementsService } from 'src/app/core/services/measurements.service'
 })
 export class LightComponent implements OnInit {
 
-  value = 0;
+  @ViewChildren('slider') slider: any;
+
   lightData: any;
+  mode:boolean = false;
+  sliderLight: number = 26;
 
   constructor(private measurementService: MeasurementsService) { }
 
   ngOnInit(): void {
     this.lightData = this.measurementService.getLight();
+  }
+
+  updateValue(event: any) {
+    this.slider.value = event?.value;
+  }
+
+
+  formatLabel(value: number | null) {
+    if (!value) {
+      return this.sliderLight;
+    }
+    this.sliderLight = value;
+   
+    return value;
   }
 
 }
