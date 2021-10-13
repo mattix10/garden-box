@@ -28,3 +28,11 @@ div {
     font-size: $font-small;
   }
 }
+
+mat-icon {
+  color: $green-light;
+  font-size: $font-big;
+  padding: .5rem;
+  width: 2rem;
+  height: 2rem;
+}

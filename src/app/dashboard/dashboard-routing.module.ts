@@ -1,19 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AirComponent } from './air/air.component';
 import { DashboardComponent } from './dashboard.component';
-import { HumidityComponent } from './humidity/humidity.component';
-import { LightComponent } from './light/light.component';
 import { MyAccountComponent } from './my-account/my-account.component';
 import { ParameterComponent } from './parameter/parameter.component';
 import { SettingsComponent } from './settings/settings.component';
 import { StatsComponent } from './stats/stats.component';
-import { TemperatureComponent } from './temperature/temperature.component';
 
 const childRoutes: Routes = [
   {
     path: 'temperatura',
-    component: TemperatureComponent
+    component: ParameterComponent
   },
   {
     path: 'wilgotność',
@@ -21,7 +17,7 @@ const childRoutes: Routes = [
   },
   {
     path: 'oświetlenie',
-    component: LightComponent
+    component: ParameterComponent
   },
   {
     path: 'statystyki',
@@ -29,6 +25,10 @@ const childRoutes: Routes = [
   },
   {
     path: 'powietrze',
+    component: ParameterComponent
+  },
+  {
+    path: 'zbiornik',
     component: ParameterComponent
   },
   {

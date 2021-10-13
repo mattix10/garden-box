@@ -83,6 +83,17 @@ input:-webkit-autofill {
   stroke-width: 15;
 }
 
+.mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: rgb(199, 199, 199) !important;
+  margin: auto;
+}
+
+mat-spinner {
+  margin: auto;
+  height: 100%;
+}
+
 
 
 // .container,

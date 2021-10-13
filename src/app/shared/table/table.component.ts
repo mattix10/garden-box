@@ -10,7 +10,7 @@ export class TableComponent implements OnInit, OnChanges {
   @Input() tableHeaderOne: string = '';
   @Input() tableHeaderTwo: string = '';
   @Input() tableData: any[] = [];
-  @Input() unit: string = ''
+  @Input() unit: string = '';
 
   constructor() { }
 

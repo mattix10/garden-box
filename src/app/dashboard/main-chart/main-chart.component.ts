@@ -1,4 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChartOptions } from 'src/app/core/interfaces/ChartOptions';
+import { MenuItem } from 'src/app/core/interfaces/MenuItem';
+import { MeasurementsService } from 'src/app/core/services/measurements.service';
 import { MenuItemsService } from 'src/app/core/services/menu-items.service';
 import { ChartType } from '../../core/enums/chartType';
 
@@ -9,9 +12,14 @@ import { ChartType } from '../../core/enums/chartType';
 })
 export class MainChartComponent implements OnInit {
 
+  @ViewChild('googleChart') google: any;
+
   chartType = ChartType;
-  parametersTitle: any = [];
+  parameters: MenuItem[] = [];
+  parametersTitle: string[] = [];
   selectedParameterTitle: string = '';
+  selectedParameter: MenuItem | undefined;
+  chartOptions: ChartOptions | any;
   myData = [
     ['22:01', 21.2],
     ['22:02', 21.0],
@@ -19,37 +27,18 @@ export class MainChartComponent implements OnInit {
     ['22:04', 20.3],
     ['22:05', 20]
   ];
+  constructor(private menuItemsService: MenuItemsService, private measurementService: MeasurementsService) { }
 
-  selectedParameter: any;
-  parameters: any = [];
-  myOptions = {
-    colors: ['#38AA73', ],
-    legend: { position: 'none' },
-    hAxis: {
-      title: 'Godzina',
-      titleTextStyle: {
-        italic: false,
-      }
-    },
-    vAxis: {
-      title: '',
-      titleTextStyle: {
-        italic: false,
-      }
-    }
-  };
-  constructor(private menuItemsService: MenuItemsService) { }
-
-  @ViewChild('google') google: any;
   ngOnInit(): void {
     this.parameters = this.menuItemsService.getMenuItems().filter((item: any )=> item.category == 'parameters');
     this.selectedParameter = this.parameters[0];
-    this.myOptions.vAxis.title = this.parameters[0].unit;
+    this.chartOptions = this.measurementService.getChartOptions();
+    this.chartOptions.vAxis.title = this.parameters[0].unit;
   }
 
   onSelectedParam(param: any) {
     this.selectedParameter = param;
-    this.myOptions.vAxis.title = param.unit;
+    this.chartOptions.vAxis.title = param.unit;
     this.myData = Object.assign([], this.myData)
   }
 

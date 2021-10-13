@@ -5,7 +5,7 @@
     <div class="tiles-wrapper">
       <ng-container *ngFor="let item of menuItems">
         <div *ngIf="item.category">
-          <app-panel-menu-item [title]="item.title" [iconUrl]="item.iconUrl" [routerLink]="['/panel/',item.link]">
+          <app-panel-menu-item [title]="item.title" [iconName]="item.iconName" [routerLink]="['/panel/',item.link]">
           </app-panel-menu-item>
         </div>
       </ng-container>
@@ -14,7 +14,7 @@
   <app-bottom-bar></app-bottom-bar>
 </ng-container>
 
-<ng-container *ngIf="isTabletResolution;">
+<ng-container *ngIf="isTabletResolution">
   <div class="side">
     <app-sidenav></app-sidenav>
   </div>
@@ -27,12 +27,15 @@
         </div>
         <div class="parameters-wrapper">
           <app-main-parameter [parameter]="parameter" [routerLink]="['/panel', parameter.link]" class="param"
-            *ngFor="let parameter of parameters"></app-main-parameter>
+            *ngFor="let parameter of parameters; let i = index"
+            [currentValue]="paramaterMeasurements[i]?.name === parameter?.name ? paramaterMeasurements[i]?.value : null">
+          </app-main-parameter>
         </div>
       </div>
       <div class="bottom-dashboard">
         <div class="device-wrapper">
-          <app-main-device></app-main-device>
+          <app-main-device [currentValue]="mainDevice?.value">
+          </app-main-device>
         </div>
         <div class="info-wrapper">
           <app-main-info></app-main-info>

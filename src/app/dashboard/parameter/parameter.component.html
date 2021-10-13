@@ -6,7 +6,8 @@
       </div>
 
       <p class="text-center">Aktualna wartość</p>
-      <div class="current-value text-center">{{currentValue}} <span>{{parameter.unit}}</span></div>
+      <div class="current-value text-center" *ngIf="currentMeasurementValue !=null">{{currentMeasurementValue}}
+        <span>{{parameter.unit}}</span></div>
       <ng-container *ngIf="parameter.title != 'Powietrze'">
         <div class="control">
           <div>
@@ -20,12 +21,11 @@
         </div>
         <div class="control">
           <div>Zadana wartość</div>
-          <div *ngIf=" flag">{{slider.value}} {{parameter?.unit}}</div>
+          <div *ngIf="sliderLoaded">{{slider.value}} {{parameter?.unit}}</div>
         </div>
         <div class="slider-wrapper">
-          <mat-slider min="{{0 ? 0 :parameter.minSliderValue}}" max="{{100 ? 100:parameter.maxSliderValue}}" step=".5"
-            autoTicks="false" [displayWith]="formatLabel" [disabled]="!mode" (change)="updateValue($event)" #slider
-            [value]="sliderTemperature">
+          <mat-slider min="{{parameter.minSliderValue}}" max="{{parameter.maxSliderValue}}" step=".5" autoTicks="false"
+            [displayWith]="formatLabel" [disabled]="!mode" (change)="updateValue($event)" #slider [value]="sliderValue">
           </mat-slider>
         </div>
       </ng-container>
@@ -40,7 +40,7 @@
   </div>
   <div class="chart-wrapper tile">
     <google-chart #google [data]="dataChart" [type]="chartType.AreaChart" style="width: 100%; min-height: 300px"
-      [dynamicResize]="true" [options]="myOptions">
+      [dynamicResize]="true" [options]="chartOptions">
     </google-chart>
   </div>
 </div>

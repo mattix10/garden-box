@@ -18,7 +18,7 @@ export class SidenavItemComponent implements OnInit {
 
   selectItem(itemName: string) {
     console.log(itemName)
-    if(this.selectedItem == itemName) this.isActive = true;
+    if (this.selectedItem == itemName) this.isActive = true;
   }
 
 }

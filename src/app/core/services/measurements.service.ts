@@ -1,15 +1,117 @@
 import { Injectable } from '@angular/core';
-
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
+import * as io from 'socket.io-client';
 @Injectable({
   providedIn: 'root'
 })
 export class MeasurementsService {
 
-  constructor() { }
+  sliderTemperatureValue: number = 27;
+  sliderHumidityValue: number = 75;
+  sliderLightValue: number = 50;
+  temperature: number = 100;
+
+  private socket: any;
+  private route: string = '';
+  data: any;
+
+  constructor() {}
+
+  connect(route: string) {
+    this.route = route;
+    console.log(route)
+    // this.socket = io.io(`http://localhost:5000/${route}`);
+    console.log('connect with server');
+    // this.socket = io.io(`http://localhost:5000/${route}`);
+  }
+
+  getSliderValue(paramName: string): any {
+    switch (paramName) {
+      case ('temperature'):
+        return this.sliderTemperatureValue;
+      case ('light'):
+        return this.sliderLightValue;
+      case ('humidity'):
+        return this.sliderHumidityValue;
+    }
+  }
+
+  setSliderValue(paramName: string, value: number): any {
+    switch (paramName) {
+      case ('temperature'):
+        this.sliderTemperatureValue = value;
+        break;
+      case ('light'):
+        this.sliderLightValue = value;
+        break;
+      case ('humidity'):
+        this.sliderHumidityValue = value;
+        break;
+    }
+  }
 
   getData(name: string) {
     return this.temperatureData[0];
   }
+
+  getChartOptions() {
+    const chartOptions = {
+      colors: ['#38AA73', ],
+      legend: { position: 'none' },
+      hAxis: {
+        title: 'Godzina',
+        titleTextStyle: {
+          italic: false,
+        }
+      },
+      vAxis: {
+        title: '',
+        titleTextStyle: {
+          italic: false,
+        }
+      }
+    };
+
+    return chartOptions;
+  }
+
+  observer: any;
+
+  getData2(route: string): Observable<any> {
+    console.log(route);
+    console.log(this.socket)
+      this.socket.on(this.route, (data: any) => {
+        console.log(data)
+        this.data = data;
+        this.observer.next(data);
+      })
+      return this.getSocketDataObservable();
+  };
+
+  unsub() {
+    // this.socket = io.io(`http://localhost:5000/humidity`);
+    this.socket.emit('unSubscribeToAddition', ()=> {
+
+    })
+  }
+
+  getSocketDataObservable(): Observable<any> {
+    return new Observable(observer => {
+        this.observer = observer;
+    });
+}
+
+  // We define our Observer which will listen to messages
+  // from our other components and send messages back to our
+  // socket server whenever the `next()` method is called.
+
+
+  // we return our Rx.Subject which is a combination
+  // of both an observer and observable.
+
+    // return this.socket.fromEvent(this.route).pipe(map((data: any) => data));
+
 
   temperatureData = [
     {

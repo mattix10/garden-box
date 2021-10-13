@@ -18,6 +18,9 @@ export class PanelMenuItemComponent implements OnInit {
   @Input()
   link: string = '';
 
+  @Input()
+  iconName: string = '';
+
   constructor() { }
 
   ngOnInit(): void {

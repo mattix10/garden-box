@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
+import { MenuItem } from './../interfaces/MenuItem';
 
-const MENU_ITEMS = [
+const MENU_ITEMS: MenuItem[] = [
   {
-    iconUrl: '../../../assets/icons/home.svg',
     iconName: 'home',
     title: 'Strona główna',
     link: 'panel',
     category: ''
   },
   {
-    iconUrl: '../../../assets/icons/temperatura.svg',
     iconName: 'thermostat',
     title: 'Temperatura',
     name: 'temperature',
@@ -22,7 +21,6 @@ const MENU_ITEMS = [
     backgroundColor: '#38AA73'
   },
   {
-    iconUrl: '../../../assets/icons/powietrze.svg',
     iconName: 'air',
     title: 'Powietrze',
     name: 'air',
@@ -33,7 +31,6 @@ const MENU_ITEMS = [
     backgroundColor: '#C8F6BC'
   },
   {
-    iconUrl: '../../../assets/icons/oswietlenie.svg',
     iconName: 'emoji_objects',
     title: 'Oświetlenie',
     name: 'light',
@@ -46,7 +43,6 @@ const MENU_ITEMS = [
     backgroundColor: '#0D77B4'
   },
   {
-    iconUrl: '../../../assets/icons/wilgotnosc.svg',
     iconName: 'water_drop',
     title: 'Wilgotność',
     name: 'humidity',
@@ -61,11 +57,12 @@ const MENU_ITEMS = [
   {
     iconName: 'inventory',
     title: 'Zbiornik',
+    name: 'container',
     link: 'zbiornik',
+    unit: '%',
     category: 'devices'
   },
   {
-    iconUrl: '../../../assets/icons/statystyki.svg',
     iconName: 'bar_chart',
     title: 'Statystyki',
     link: 'statystyki',
@@ -78,7 +75,6 @@ const MENU_ITEMS = [
     category: 'others'
   },
   {
-    iconUrl: '../../../assets/icons/ustawienia.svg',
     iconName: 'settings',
     title: 'Ustawienia',
     link: 'ustawienia',

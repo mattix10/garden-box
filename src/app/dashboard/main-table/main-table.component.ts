@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuItem } from 'src/app/core/interfaces/MenuItem';
 import { MeasurementsService } from 'src/app/core/services/measurements.service';
 import { MenuItemsService } from 'src/app/core/services/menu-items.service';
 
@@ -8,8 +9,8 @@ import { MenuItemsService } from 'src/app/core/services/menu-items.service';
   styleUrls: ['./main-table.component.scss']
 })
 export class MainTableComponent implements OnInit {
-  selectedParameter: any;
-  parameters: any;
+  selectedParameter: MenuItem | any;
+  parameters: MenuItem[] = [];
 
   constructor(private measurementsService: MeasurementsService, private menuItemsService: MenuItemsService) { }
 

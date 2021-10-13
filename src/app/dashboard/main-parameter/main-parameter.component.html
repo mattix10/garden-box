@@ -4,13 +4,17 @@
     <h2>{{parameter.title}}</h2>
   </div>
   <div class="measurement">
-    <span class="value">
-
-      {{measurement.measure}}
-    </span>
-    <span class="unit">
-      {{parameter.unit}}
-    </span>
+    <ng-container *ngIf="value; else spinner">
+      <span class="value">
+        {{value }}
+      </span>
+      <span class="unit">
+        {{parameter.unit}}
+      </span>
+    </ng-container>
+    <ng-template #spinner>
+      <mat-spinner [diameter]="60"></mat-spinner>
+    </ng-template>
   </div>
   <div class="manage">Zarządzaj</div>
 </div>

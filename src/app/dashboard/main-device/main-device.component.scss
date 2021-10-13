@@ -13,7 +13,13 @@ h2 {
 }
 
 .chart-wrapper {
+  height: inherit;
   margin: 2rem 0;
+
+  @include media(large) {
+    display: flex;
+    margin: 0;
+  }
 }
 
 :host {
