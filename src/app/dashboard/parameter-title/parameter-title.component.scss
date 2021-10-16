@@ -1,17 +1,27 @@
 @import 'variables';
 
 .parameters-wrapper {
-  display: flex;
-  margin: .5rem 0;
+
+  @include media(tab-port) {
+    display: flex;
+  }
+
+  margin: .5rem;
 }
 
 
 .parameter-title {
+
+  @include media(tab-port) {
+    margin: 0 10px 0 0;
+    font-size: $font-regular-small;
+  }
+
   padding: 10px;
-  margin: 0 10px 0 0;
+  margin: 2px;
   color: $grey-light;
   font-family: OpenSans-Regular;
-  font-size: $font-regular-small;
+  font-size: $font-small;
   cursor: pointer;
   border-radius: 5px;
 }

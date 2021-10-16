@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { MenuItem } from 'src/app/core/interfaces/MenuItem';
 import { MenuItemsService } from 'src/app/core/services/menu-items.service';
 
 @Component({
@@ -13,12 +14,12 @@ export class ParameterTitleComponent implements OnInit {
   selectedParameter: any;
 
   constructor(private menuItemsService: MenuItemsService) { }
-  @Output() selectedParam = new EventEmitter<any>();
+  @Output() selectedParam = new EventEmitter<MenuItem>();
 
   ngOnInit(): void {
-    this.parameters = this.menuItemsService.getMenuItems().filter((item: any )=> item.category == 'parameters');
-    this.menuItemsService.getMenuItems().forEach((item:any) => {
-      if (item.category == 'parameters') {
+    this.parameters = this.menuItemsService.getMenuItems().filter((item: MenuItem )=> (item.category == 'parameters' || item.name == 'container') );
+    this.menuItemsService.getMenuItems().forEach((item: MenuItem) => {
+      if (item.category === 'parameters' || item.name === 'container') {
         this.parametersTitle.push(item.title)
       }
     });
@@ -27,7 +28,7 @@ export class ParameterTitleComponent implements OnInit {
   }
 
   selectTitle(title: string) {
-    this.selectedParameter= this.parameters.find((param:any) => param.title == title);
+    this.selectedParameter = this.parameters.find((param:MenuItem) => param.title === title);
     this.selectedParam.emit(this.selectedParameter);
   }
 }

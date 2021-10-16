@@ -13,9 +13,10 @@ exports.socketAir = function (socket) {
   })
 }
 
-exports.getAir = async () => {
-  await Sensor.create({
-    value: airValue + Math.floor(Math.random() * 7),
-    name: 'air'
-  });
-}
+exports.getAir = () => airValue + Math.floor(Math.random() * 7)
+// exports.getAir = async () => {
+//   await Sensor.create({
+//     value: airValue + Math.floor(Math.random() * 7),
+//     name: 'air'
+//   });
+// }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuItem } from 'src/app/core/interfaces/MenuItem';
 import { MeasurementsService } from 'src/app/core/services/measurements.service';
 import { MenuItemsService } from 'src/app/core/services/menu-items.service';
@@ -11,37 +12,41 @@ import { MenuItemsService } from 'src/app/core/services/menu-items.service';
 export class MainTableComponent implements OnInit {
   selectedParameter: MenuItem | any;
   parameters: MenuItem[] = [];
+  data: any[] = [];
+  empty: boolean = false;
 
-  constructor(private measurementsService: MeasurementsService, private menuItemsService: MenuItemsService) { }
+  constructor(private measurementsService: MeasurementsService, private menuItemsService: MenuItemsService, private router: Router) { }
 
-  data: any;
   ngOnInit(): void {
     this.parameters = this.menuItemsService.getMenuItems().filter((item: any )=> item.category == 'parameters');
     this.selectedParameter = this.parameters[0];
-    this.data = this.measurementsService.getTemperature();
+    this.getMeasurement(this.selectedParameter);
+    if(this.router.url == '/panel/statystyki') {
+      this.getDateMeasurement();
+    }
   }
 
   onSelectedParam(param: any) {
-    console.log(param)
     this.selectedParameter = param;
+    if(this.router.url == '/panel/statystyki') {
+      this.getDateMeasurement();
+    } else this.getMeasurement(this.selectedParameter);
+  }
 
-    switch (param.title) {
-      case 'Temperatura':
-        this.data = this.measurementsService.getTemperature();
-        break;
-      case 'Wilgotność':
-        this.data = this.measurementsService.getHumidity();
-        break;
-      case 'Oświetlenie':
-        this.data = this.measurementsService.getLight();
-        break;
-      case 'Powietrze':
-        this.data = this.measurementsService.getAir();
-        break;
-      default:
-        this.data = this.measurementsService.getTemperature();
-    }
-    this.data = Object.assign([], this.data)
+  getDateMeasurement() {
+    this.measurementsService.dateSubject.subscribe((choosenDate: string) => {
+      this.measurementsService.getDateMeasurement(this.selectedParameter.name, choosenDate).subscribe(data => {
+        this.data = data;
+        if(!this.data.length) this.empty = true;
+      });
+    })
+  }
+
+  getMeasurement(param: any, limit: number = 10) {
+    this.measurementsService.getMeasurement(param.name, limit).subscribe(data => {
+      this.data = data;
+      if(!this.data.length) this.empty = true;
+    });
   }
 
 

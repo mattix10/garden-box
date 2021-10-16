@@ -4,6 +4,7 @@
   display: flex;
   flex-wrap: wrap;
   margin: 0 auto;
+  padding: 0 0 50px 0;
 
   div {
     padding: 15px;
@@ -36,7 +37,7 @@
   margin-left: 250px;
 
   @include media(desktop) {
-    padding: 3rem 8rem;
+    padding: 3rem 4rem;
   }
 
   @include media(large) {

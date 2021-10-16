@@ -1,4 +1,3 @@
-const Sensor = require('../models/Sensor');
 let containerValue = 70;
 
 exports.socketContainer = function (socket) {
@@ -13,9 +12,10 @@ exports.socketContainer = function (socket) {
   console.log('Oświetlenie')
 }
 
-exports.getContainer = async () => {
-  await Sensor.create({
-    value: containerValue + Math.floor(Math.random() * 7),
-    name: 'container'
-  });
-}
+exports.getContainer = () => containerValue + Math.floor(Math.random() * 7)
+// exports.getContainer = async () => {
+//   await Sensor.create({
+//     value: containerValue + Math.floor(Math.random() * 7),
+//     name: 'container'
+//   });
+// }

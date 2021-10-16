@@ -6,8 +6,8 @@
     </tr>
     <ng-container *ngFor="let measure of tableData">
       <tr>
-        <td>{{measure.date}}</td>
-        <td>{{measure.measure}}</td>
+        <td>{{measure.createdAt | date:'HH:mm'}}</td>
+        <td>{{measure.value}}</td>
       </tr>
     </ng-container>
 

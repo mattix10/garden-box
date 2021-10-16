@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
-import { HomeRoutingModule } from './home-routing.module';
+import { HomeRoutingModule } from './account-routing.module';
 import { SharedModule } from '../shared/shared.module';
-import { HomeComponent } from './home.component';
+import { AccountComponent } from './account.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 
@@ -12,7 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   declarations: [
     LoginComponent,
     RegistrationComponent,
-    HomeComponent
+    AccountComponent
   ],
   imports: [
     CommonModule,

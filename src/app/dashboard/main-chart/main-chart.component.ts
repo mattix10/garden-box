@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { ChartOptions } from 'src/app/core/interfaces/ChartOptions';
 import { MenuItem } from 'src/app/core/interfaces/MenuItem';
+import { ChartService } from 'src/app/core/services/chart.service';
 import { MeasurementsService } from 'src/app/core/services/measurements.service';
 import { MenuItemsService } from 'src/app/core/services/menu-items.service';
 import { ChartType } from '../../core/enums/chartType';
@@ -18,29 +20,45 @@ export class MainChartComponent implements OnInit {
   parameters: MenuItem[] = [];
   parametersTitle: string[] = [];
   selectedParameterTitle: string = '';
-  selectedParameter: MenuItem | undefined;
+  selectedParameter: MenuItem | any;
   chartOptions: ChartOptions | any;
-  myData = [
-    ['22:01', 21.2],
-    ['22:02', 21.0],
-    ['22:03', 20.5],
-    ['22:04', 20.3],
-    ['22:05', 20]
-  ];
-  constructor(private menuItemsService: MenuItemsService, private measurementService: MeasurementsService) { }
+  dataChart: any[] = [];
+  resultsLimit: number = 13;
+
+  constructor(private chartService: ChartService, private menuItemsService: MenuItemsService, private measurementsService: MeasurementsService, private router: Router) { }
 
   ngOnInit(): void {
     this.parameters = this.menuItemsService.getMenuItems().filter((item: any )=> item.category == 'parameters');
     this.selectedParameter = this.parameters[0];
-    this.chartOptions = this.measurementService.getChartOptions();
+    if(this.router.url == '/panel/statystyki') {
+      this.getDateMeasurement();
+    } else this.getMeasurement(this.selectedParameter);
+    this.chartOptions = this.chartService.getChartOptions();
     this.chartOptions.vAxis.title = this.parameters[0].unit;
   }
 
-  onSelectedParam(param: any) {
+  onSelectedParam(param: MenuItem) {
     this.selectedParameter = param;
+    if(this.router.url == '/panel/statystyki') {
+      this.getDateMeasurement();
+    } else this.getMeasurement(this.selectedParameter);
     this.chartOptions.vAxis.title = param.unit;
-    this.myData = Object.assign([], this.myData)
   }
 
+  getMeasurement(param: any) {
+    this.measurementsService.getMeasurement(param.name, this.resultsLimit).subscribe(data => {
+      this.dataChart = this.chartService.createDataForChart(data);
+    })
+  }
+
+  getDateMeasurement() {
+    this.measurementsService.dateSubject.subscribe((choosenDate: string) => {
+      console.log(choosenDate);
+      this.measurementsService.getDateMeasurement(this.selectedParameter.name, choosenDate).subscribe(data => {
+        console.log(data)
+        this.dataChart = this.chartService.createDataForChart(data);
+      });
+    })
+  }
 
 }

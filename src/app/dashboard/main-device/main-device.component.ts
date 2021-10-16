@@ -34,10 +34,8 @@ export class MainDeviceComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     // this.socketService.listen()
-    console.log(this.currentValue)
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes)
   }
 }

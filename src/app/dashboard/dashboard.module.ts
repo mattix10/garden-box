@@ -25,8 +25,10 @@ import { ParameterComponent } from './parameter/parameter.component';
 import { GaugeModule } from 'angular-gauge';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { SocketService } from '../core/services/socket.service';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { EmptyDataComponent } from './empty-data/empty-data.component';
 
-const config: SocketIoConfig = { url: 'http://192.168.137.160:80', options: {transports: ['websocket'], upgrade: false} };
+const config: SocketIoConfig = { url: 'http://localhost:5000', options: {transports: ['websocket'], upgrade: false} };
 
 @NgModule({
   declarations: [
@@ -47,6 +49,7 @@ const config: SocketIoConfig = { url: 'http://192.168.137.160:80', options: {tra
     MainTableComponent,
     ParameterTitleComponent,
     ParameterComponent,
+    EmptyDataComponent,
   ],
   imports: [
     CommonModule,
@@ -65,7 +68,8 @@ const config: SocketIoConfig = { url: 'http://192.168.137.160:80', options: {tra
   ],
   providers: [
     MeasurementsService,
-    SocketService
+    SocketService,
+    {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'},
   ]
 })
 export class DashboardModule { }

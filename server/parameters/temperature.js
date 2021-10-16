@@ -12,9 +12,10 @@ exports.socketTemperature = function (socket) {
   })
 }
 
-exports.getTemperature = async () => {
-  await Sensor.create({
-    value: tempValue + Math.floor(Math.random() * 7),
-    name: 'temperature'
-  });
-}
+exports.getTemperature = () => tempValue + Math.floor(Math.random() * 7);
+// exports.getTemperature = async () => {
+//   await Sensor.create({
+//     value: tempValue + Math.floor(Math.random() * 7),
+//     name: 'temperature'
+//   });
+// }

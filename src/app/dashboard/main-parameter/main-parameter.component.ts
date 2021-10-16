@@ -17,7 +17,7 @@ export class MainParameterComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.value = this.currentValue;
-    this.measurement = this.measurementService.getData(this.parameter.name);
+    // this.measurement = this.measurementService.getData(this.parameter.name);
   }
 
   ngOnChanges(changes: SimpleChanges) {

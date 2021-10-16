@@ -11,9 +11,10 @@ exports.socketHumidity = function (socket) {
   })
 }
 
-exports.getHumidity = async () => {
-  await Sensor.create({
-    value: humidityValue + Math.floor(Math.random() * 7),
-    name: 'humidity'
-  });
-}
+exports.getHumidity = () => humidityValue + Math.floor(Math.random() * 7);
+// exports.getHumidity = async () => {
+//   await Sensor.create({
+//     value: humidityValue + Math.floor(Math.random() * 7),
+//     name: 'humidity'
+//   });
+// }

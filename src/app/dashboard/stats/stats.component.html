@@ -1,1 +1,20 @@
-<h2>Temperatura</h2>
+<!-- <h2>Statystyki</h2> -->
+<!-- <mat-form-field class="date-picker" appearance="outline">
+  <mat-label>Wybierz datę</mat-label>
+  <input matInput [matDatepicker]="picker">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field> -->
+<div class="container">
+  <div class="wrapper">
+    <div class="wrap">
+      <mat-calendar class="calendar tile" [selected]="selectedDate" [maxDate]="currentDate"
+        (selectedChange)="onSelectedChange($event)">
+      </mat-calendar>
+    </div>
+    <div class="wrap1">
+      <app-main-table></app-main-table>
+    </div>
+  </div>
+  <app-main-chart></app-main-chart>
+</div>

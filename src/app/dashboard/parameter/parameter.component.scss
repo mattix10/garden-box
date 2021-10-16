@@ -21,7 +21,6 @@
         width: 100%;
       }
 
-      padding: 15px;
       margin: 15px;
     }
   }
@@ -62,6 +61,15 @@ p {
   max-width: 800px;
   margin: 1rem;
   padding: .25rem;
+}
+
+.tile {
+  @include media(tab-land) {
+    padding: 15px;
+    box-shadow: 0px 0px 18px 1px #e7e7e7;
+  }
+
+  box-shadow: none;
 }
 
 ::ng-deep {

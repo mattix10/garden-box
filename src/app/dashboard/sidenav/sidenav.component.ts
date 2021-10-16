@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuItem } from 'src/app/core/interfaces/MenuItem';
 import { MenuItemsService } from 'src/app/core/services/menu-items.service';
 
 @Component({
@@ -10,16 +11,16 @@ export class SidenavComponent implements OnInit {
 
   constructor(private menuItemsService: MenuItemsService) { }
 
-  menuItems: any[] = [];
-  selectedItem: any = '';
+  menuItems: MenuItem[] = [];
+  selectedItem: string = '';
 
   get parameters() {
-    const parameters = this.menuItems.filter(item => item.category == 'parameters');
+    const parameters = this.menuItems.filter(item => item.category === 'parameters');
     return parameters;
   }
 
   get devices() {
-    const devices = this.menuItems.filter(item => item.category == 'devices');
+    const devices = this.menuItems.filter(item => item.category === 'devices');
     return devices;
   }
 
@@ -30,11 +31,9 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit(): void {
     this.menuItems = this.menuItemsService.getMenuItems();
-    console.log(this.menuItems);
   }
 
   selectItem(itemName: string) {
-
     this.selectedItem = itemName;
   }
 

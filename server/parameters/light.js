@@ -17,9 +17,10 @@ exports.socketLight = function (socket) {
   })
 }
 
-exports.getLight = async () => {
-  await Sensor.create({
-    value: lightValue + Math.floor(Math.random() * 7),
-    name: 'light'
-  });
-}
+exports.getLight = () => lightValue + Math.floor(Math.random() * 7)
+// exports.getLight = () => {
+//   await Sensor.create({
+//     value: lightValue + Math.floor(Math.random() * 7),
+//     name: 'light'
+//   });
+// }

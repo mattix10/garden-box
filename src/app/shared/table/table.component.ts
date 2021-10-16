@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { MeasurementsService } from 'src/app/core/services/measurements.service';
 
 @Component({
   selector: 'app-table',
@@ -12,14 +13,13 @@ export class TableComponent implements OnInit, OnChanges {
   @Input() tableData: any[] = [];
   @Input() unit: string = '';
 
-  constructor() { }
+  constructor(private measurementsService: MeasurementsService) { }
 
   ngOnInit(): void {
   }
 
   ngOnChanges() {
-    console.log('elo')
-    this.tableData = this.tableData;
+    // this.tableData = this.tableData;
   }
 
 }

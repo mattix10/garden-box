@@ -61,7 +61,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         } else measurements.push(data);
 
         this.paramaterMeasurements = measurements;
-        console.log(measurements)
+        // console.log(measurements)
         if (this.mainDeviceIndex == -1) this.mainDeviceIndex = this.paramaterMeasurements.findIndex((m: Measurement) => m?.name == 'container');
         this.mainDevice = this.paramaterMeasurements[this.mainDeviceIndex];
       });

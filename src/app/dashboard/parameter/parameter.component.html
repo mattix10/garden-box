@@ -38,9 +38,12 @@
       </app-table>
     </div>
   </div>
-  <div class="chart-wrapper tile">
-    <google-chart #google [data]="dataChart" [type]="chartType.AreaChart" style="width: 100%; min-height: 300px"
-      [dynamicResize]="true" [options]="chartOptions">
-    </google-chart>
-  </div>
+
+  <ng-container *ngIf="dataChart.length">
+    <div class="chart-wrapper tile">
+      <google-chart #google [data]="dataChart" [type]="chartType.AreaChart" style="width: 100%; min-height: 300px"
+        [dynamicResize]="true" [options]="chartOptions">
+      </google-chart>
+    </div>
+  </ng-container>
 </div>

@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home.component';
+import { LoginGuard } from '../core/guards/login.guard';
+import { AccountComponent } from './account.component';
 import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {
-    path: 'zaloguj', component: HomeComponent,
+    path: 'zaloguj', component: AccountComponent,
   },  
   {
-    path: 'rejestracja', component: HomeComponent,
+    path: 'rejestracja', component: AccountComponent,
   }, 
   {
     path: '',
@@ -16,7 +17,7 @@ const routes: Routes = [
     pathMatch: 'full' 
   },
   {
-    path: '', component: HomeComponent
+    path: '', component: AccountComponent
   },
 ];
 

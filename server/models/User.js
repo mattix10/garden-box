@@ -3,12 +3,15 @@ const {
   DataTypes
 } = require('sequelize');
 const sequelize = require('../database');
+const uuid = require('uuid').v4;
 
 class User extends Model {}
 
 User.init({
-  username: {
-    type: DataTypes.STRING
+  id: {
+    type: DataTypes.UUID,
+    unique: true,
+    primaryKey: true,
   },
   email: {
     type: DataTypes.STRING
@@ -18,7 +21,10 @@ User.init({
   }
 }, {
   sequelize,
-  modelName: 'user'
+  modelName: 'user',
+  updatedAt: false
 })
+
+User.beforeCreate(user => user.id = uuid());
 
 module.exports = User;

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatCalendarCellCssClasses } from '@angular/material/datepicker/calendar-body';
+import { MeasurementsService } from 'src/app/core/services/measurements.service';
 
 @Component({
   selector: 'app-stats',
@@ -6,10 +8,32 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./stats.component.scss']
 })
 export class StatsComponent implements OnInit {
-
-  constructor() { }
+  selectedDate: any;
+  currentDate: any;
+  constructor(private measurementsService: MeasurementsService) { }
 
   ngOnInit(): void {
+    this.selectedDate = new Date();
+    this.currentDate = new Date()
+    const formattedDate = this.formatDate();
+    this.measurementsService.dateSubject.next(formattedDate);
   }
 
+  onSelectedChange(event: any) {
+    this.selectedDate = event;
+    const formattedDate = this.formatDate();
+    this.measurementsService.dateSubject.next(formattedDate);
+  }
+
+  formatDate(): string {
+    const startDatePosition = 0;
+    const endDatePosition = 10;
+    let localeDate = new Date(this.selectedDate).toLocaleDateString('pl-PL');
+    if (localeDate[1] == '.') localeDate = `0${localeDate}`;
+    const dateAsArray = localeDate
+      .substring(startDatePosition, endDatePosition)
+      .split('.');
+    const formattedDate = `${dateAsArray[2]}-${dateAsArray[1]}-${dateAsArray[0]}`;
+    return formattedDate;
+  }
 }

@@ -27,7 +27,7 @@ button {
 
 div {
   text-align: center;
-  padding: 1rem 0 0;
+  padding: .75rem 0 0;
   font-size: $font-regular-small;
 
   span {
@@ -37,4 +37,15 @@ div {
       text-decoration: underline
     }
   }
+}
+
+mat-error {
+  font-size: $font-small;
+}
+
+.error {
+  font-size: $font-regular-small;
+  padding: 10px 5px;
+  text-align: center;
+  color: red;
 }
