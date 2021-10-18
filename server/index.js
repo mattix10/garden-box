@@ -27,28 +27,29 @@ const expressServer = app.listen('5000', async () => {
 
   // Sensor.drop();
 
-  setInterval(async () => {
-    let now = new moment();
-    let lightValue = light.getLight();
-    let temperatureValue = temperature.getTemperature();
-    let humidityValue = humidity.getHumidity();
-    let containerValue = container.getContainer();
-    let airValue = air.getAir();
-    console.log(lightValue);
-    console.log(temperatureValue);
-    console.log(humidityValue);
-    console.log(containerValue);
-    console.log(airValue);
+  // setInterval(async () => {
+  //   let now = new moment();
+  //   let lightValue = light.getLight();
+  //   let temperatureValue = temperature.getTemperature();
+  //   let humidityValue = humidity.getHumidity();
+  //   let containerValue = container.getContainer();
+  //   let airValue = air.getAir();
+  //   console.log(lightValue);
+  //   console.log(temperatureValue);
+  //   console.log(humidityValue);
+  //   console.log(containerValue);
+  //   console.log(airValue);
 
-    await Sensor.create({
-      light: lightValue,
-      temperature: temperatureValue,
-      humidity: humidityValue,
-      container: containerValue,
-      air: airValue,
-      createdAt: now.format("YYYY-MM-DD HH:mm:ss")
-    })
-  }, INTERVAL);
+  //   await Sensor.create({
+  //     light: lightValue,
+  //     temperature: temperatureValue,
+  //     humidity: humidityValue,
+  //     container: containerValue,
+  //     air: airValue,
+  //     createdAt: now.format("YYYY-MM-DD HH:mm:ss")
+  //   })
+  // }, INTERVAL);
+
 });
 
 
@@ -58,7 +59,7 @@ app.use(cors({
 
 app.use(express.static('dist/garden-box'))
 app.use(express.json())
-app.use('/', router);
+app.use('/api', router);
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname + '../../server/dist/garden-box/index.html'))
 })

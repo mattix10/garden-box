@@ -7,6 +7,9 @@ const auth = require('./auth');
 const {
   Op
 } = require("sequelize");
+
+const ALLOWED_PARAMETERS = ['air', 'temperature', 'humidity', 'container', 'light'];
+
 router.get('zaloguj', async (req, res) => {
   // const sensors = await Sensor.findAll();
   // res.status(200).json(sensors)
@@ -15,19 +18,21 @@ router.get('zaloguj', async (req, res) => {
   })
 });
 
-router.get('/api/:parameter/oneDay/:limit', async (req, res) => {
-  const allowedParameters = ['air', 'temperature', 'humidity', 'container', 'light'];
+router.post('/registration', auth.registration);
+
+router.get('/:parameter/oneDay/:limit', async (req, res) => {
+
   let limit;
   limit = req.params.limit;
   if (!limit) limit = 13;
   const param = req.params.parameter;
   console.log(param);
-  if (!allowedParameters.includes(param)) res.status(400).send({
+  if (!ALLOWED_PARAMETERS.includes(param)) res.status(400).send({
     title: 'Something went wrong!'
   });
 
   else {
-    let exclude = allowedParameters.filter(item => item !== param);
+    let exclude = ALLOWED_PARAMETERS.filter(item => item !== param);
     exclude.push('id')
     const sensorData = await Sensor.findAll({
       where: {
@@ -47,12 +52,11 @@ router.get('/api/:parameter/oneDay/:limit', async (req, res) => {
   }
 })
 
-router.get('/api/:parameter/:limit', async (req, res) => {
-  const allowedParameters = ['air', 'temperature', 'humidity', 'container', 'light'];
+router.get('/:parameter/:limit', async (req, res) => {
   const param = req.params.parameter;
   const limit = req.params.limit;
 
-  if (!allowedParameters.includes(param) || !limit) res.status(400).send({
+  if (!ALLOWED_PARAMETERS.includes(param) || !limit) res.status(400).send({
     title: 'Something went wrong!'
   });
 
@@ -68,8 +72,7 @@ router.get('/api/:parameter/:limit', async (req, res) => {
   }
 });
 
-router.get('/api/:parameter/:limit/:date', async (req, res) => {
-  const allowedParameters = ['air', 'temperature', 'humidity', 'container', 'light'];
+router.get('/:parameter/:limit/:date', async (req, res) => {
   let limit;
   limit = req.params.limit;
   let date;
@@ -78,12 +81,12 @@ router.get('/api/:parameter/:limit/:date', async (req, res) => {
   if (!limit) limit = 10;
   const param = req.params.parameter;
   console.log(param);
-  if (!allowedParameters.includes(param)) res.status(400).send({
+  if (!ALLOWED_PARAMETERS.includes(param)) res.status(400).send({
     title: 'Something went wrong!'
   });
 
   else {
-    let exclude = allowedParameters.filter(item => item !== param);
+    let exclude = ALLOWED_PARAMETERS.filter(item => item !== param);
     exclude.push('id')
     const sensorData = await Sensor.findAll({
       where: {
@@ -103,11 +106,20 @@ router.get('/api/:parameter/:limit/:date', async (req, res) => {
   }
 })
 
-router.get('/api/sensors', async (req, res) => {
+router.get('/sensors', async (req, res) => {
   const sensors = await Sensor.findAll();
   res.status(200).json(sensors);
 });
 
-router.post('/api/zaloguj', auth.login);
+router.post('/zaloguj', auth.login);
+
+router.get('/user', async (req, res) => {
+
+  const user = await User.findOne({
+    email
+  });
+
+
+});
 
 module.exports = router;

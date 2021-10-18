@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 export class RegistrationComponent implements OnInit {
 
   form: FormGroup;
-
+  errorMessage: string = '';
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) { 
     this.form = this.fb.group({
       email: ['', Validators.compose([Validators.required, Validators.email])],
@@ -42,8 +42,13 @@ export class RegistrationComponent implements OnInit {
 
     if (this.form.valid) {
       console.log(this.form.value)
-      this.authService.registration(email, password);
-      this.router.navigateByUrl('/panel');
+      this.authService.registration(email, password).subscribe(data => {
+        console.log(data),
+        () => {
+          this.errorMessage = 'Nieprawidłowe dane. Spróbuj ponownie.';
+        }
+      });
+      // this.router.navigateByUrl('/panel');
     }
 
   }

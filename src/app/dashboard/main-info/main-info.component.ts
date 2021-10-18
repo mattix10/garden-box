@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainInfoComponent implements OnInit {
 
+  date: string = new Date().toLocaleDateString('PL-pl');
+  time: string = new Date().toLocaleTimeString('Pl-pl');
   constructor() { }
 
   ngOnInit(): void {
+    setInterval(()=> {
+      this.time = new Date().toLocaleTimeString('PL-pl');
+    }, 1000)
   }
 
 }

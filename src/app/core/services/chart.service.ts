@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Measurement } from '../interfaces/Measurement';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class ChartService {
     return date;
   }
 
-  createDataForChart(data: any) {
+  createDataForChart(data: Measurement[]) {
     let dataChart: any = [];
     data.forEach((data: any) => {
       const date = this.convertDate(data.createdAt);
@@ -21,10 +22,12 @@ export class ChartService {
     return dataChart;
   }
 
-  getChartOptions() {
+  getChartOptions(): any {
     const chartOptions = {
-      colors: ['#38AA73', ],
-      legend: { position: 'none' },
+      colors: ['#38AA73'],
+      legend: {
+        position: 'none' 
+      },
       hAxis: {
         title: 'Godzina',
         titleTextStyle: {

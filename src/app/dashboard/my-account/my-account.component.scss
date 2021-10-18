@@ -6,6 +6,7 @@
 
 h2 {
   font-family: Montserrat-Bold;
+  padding: 0.5rem;
 }
 
 .container {
@@ -16,6 +17,11 @@ h2 {
   }
 
   p {
-    padding: .75rem 0;
+    padding: .5rem .75rem;
+    color: #a3a2a2;
+  }
+
+  .logout {
+    text-align: right;
   }
 }
