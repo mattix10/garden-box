@@ -42,8 +42,8 @@ export class RegistrationComponent implements OnInit {
 
     if (this.form.valid) {
       console.log(this.form.value)
-      this.authService.registration(email, password).subscribe(data => {
-        console.log(data),
+      this.authService.registration(email, password).subscribe(() => {
+        this.router.navigateByUrl('/panel'),
         () => {
           this.errorMessage = 'Nieprawidłowe dane. Spróbuj ponownie.';
         }
