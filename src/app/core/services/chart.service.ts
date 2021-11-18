@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { ChartOptions } from '../interfaces/ChartOptions';
+import { DataChart } from '../interfaces/DataChart';
 import { Measurement } from '../interfaces/Measurement';
 
 @Injectable({
@@ -9,20 +11,20 @@ export class ChartService {
   constructor() { }
 
   convertDate(createdAt: string): string {
-    const date = createdAt.substring(11,16);
+    const date = createdAt.substring(11, 16);
     return date;
   }
 
-  createDataForChart(data: Measurement[]) {
-    let dataChart: any = [];
-    data.forEach((data: any) => {
-      const date = this.convertDate(data.createdAt);
-      dataChart.push([date, +data.value]);
+  createDataForChart(measurements: Measurement[]): DataChart {
+    let dataChart: DataChart = [];
+    measurements.forEach((measurement: Measurement) => {
+      const createdAt = this.convertDate(measurement.createdAt);
+      dataChart.push([createdAt, measurement.value]);
     });
     return dataChart;
   }
 
-  getChartOptions(): any {
+  getChartOptions(): ChartOptions {
     const chartOptions = {
       colors: ['#38AA73'],
       legend: {
