@@ -34,11 +34,11 @@
       </div>
       <div class="bottom-dashboard">
         <div class="device-wrapper">
-          <app-main-device [currentValue]="mainDevice?.value" [routerLink]="['/panel/zbiornik']">
+          <app-main-device [currentValue]="mainDeviceMeasurement?.value" [routerLink]="['/panel/zbiornik']">
           </app-main-device>
         </div>
         <div class="info-wrapper">
-          <app-main-info></app-main-info>
+          <app-main-info [routerLink]="['/panel/informacje']"></app-main-info>
         </div>
         <div class="table-wrapper">
           <app-main-table></app-main-table>
