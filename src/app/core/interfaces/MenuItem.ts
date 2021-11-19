@@ -1,7 +1,7 @@
 export interface MenuItem {
     iconName: string,
     title: string,
-    name?: string,
+    name: string,
     link: string,
     unit?: string,
     minSliderValue?: number,
