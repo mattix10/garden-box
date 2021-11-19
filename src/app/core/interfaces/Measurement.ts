@@ -1,5 +1,5 @@
 export interface Measurement {
-    date: Date,
     value: number,
-    name: string
+    name?: string,
+    createdAt: string
 }
