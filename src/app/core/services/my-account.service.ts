@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { User } from '../interfaces/User';
 
 const API_URL = environment.API_URL;
 
@@ -12,7 +13,16 @@ export class MyAccountService {
 
   constructor(private http: HttpClient) { }
 
-  getUserData(): Observable<any> {
-    return this.http.get<any>(`${API_URL}/user`);
+  getUserData(): Observable<User> {
+    return this.http.get<User>(`${API_URL}/user`);
+  }
+
+  editPlant(plant: string): Observable<any> {
+    return this.http.patch(`${API_URL}/users`, plant);
+  }
+
+  editPassword(email:string, newPassword: string): Observable<any>{
+    console.log(newPassword);
+    return this.http.patch(`${API_URL}/user`, {email, newPassword})
   }
 }
