@@ -3,11 +3,14 @@
     <h2>Informacje ogólne</h2>
   </div>
   <div class="info-content">
-    <h4>Nazwa urządzenia</h4>
-    <p>Raspberry pi</p>
     <h4>Nazwa rośliny</h4>
-    <p>Ręczny</p>
+    <p *ngIf="!editMode">Brokuł</p>
+    <h4>Nazwa urządzenia</h4>
+    <p>Raspberry Pi 4B</p>
     <h4>Data</h4>
     <p>{{date}} {{time}}</p>
+  </div>
+  <div class="logout">
+    <button mat-stroked-button *ngIf="editMode" class="btn-save" (click)="save()">Zapisz</button>
   </div>
 </div>
