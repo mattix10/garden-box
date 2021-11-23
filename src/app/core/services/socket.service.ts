@@ -6,10 +6,10 @@ import { Observable, Subscriber } from 'rxjs';
 export class SocketService {
   
   observer: Subscriber<any> = new Subscriber();
-  interval: number | undefined;
-  interval2: number | undefined;
-  interval3: number | undefined;
-  interval4: number | undefined;
+  interval: number;
+  interval2: number;
+  interval3: number;
+  interval4: number;
 
   constructor(private socket: Socket) {}
 
