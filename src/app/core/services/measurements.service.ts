@@ -1,49 +1,56 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
 import { environment } from 'src/environments/environment';
+import { Measurement } from '../interfaces/Measurement';
+interface GeneralMeasurement {
+  createdAt: string
+  value: number,
+}
 @Injectable({
   providedIn: 'root'
 })
+
+
 export class MeasurementsService {
 
-  data: any;
-  observer: any;
   dateSubject: BehaviorSubject<any> = new BehaviorSubject(new Date().toISOString());
 
   constructor(private http: HttpClient) {}
 
-  getMeasurement(parameter: string, limit?: number): Observable<any> {
-    return this.http.get<any>(`${environment.API_URL}/${parameter}/oneDay/${limit}`).pipe(map(data => {
-      return data.map((item:any) => {
-        const itemValues = Object.values(item);
-        const newItem = {
-          value: itemValues[0],
-          createdAt: itemValues[1]
-        }
-        return newItem;
-      });
+  getMeasurement(parameter: string, limit?: number): Observable<GeneralMeasurement[]> {
+    limit ? limit: limit = 13;
+    const params = new HttpParams().set('limit', limit)
+
+    return this.http.get<any>(`${environment.API_URL}/${parameter}/oneDay`, {params})
+      .pipe(map(data => {
+        console.log(data)
+        return data.map((measurement: Measurement) => {
+          return this.getGeneralMeasurement(measurement);
+        });
+    })
+    );
+  }
+
+  getDateMeasurement(parameter: string, date: string): Observable<GeneralMeasurement[]> {
+    const params = new HttpParams().set('date', date);
+    return this.http.get<any>(`${environment.API_URL}/${parameter}`, { params })
+      .pipe(
+        map(data => {
+        return data.map((measurement: Measurement) => {
+          return this.getGeneralMeasurement(measurement);
+        });
     }));
   }
 
-  getDateMeasurement(parameter: string, date: string) {
-    return this.http.get<any>(`${environment.API_URL}/${parameter}/11/${date}`).pipe(map(data => {
-      return data.map((item:any) => {
-        const itemValues = Object.values(item);
-        const newItem = {
-          value: itemValues[0],
-          createdAt: itemValues[1]
-        }
-        return newItem;
-      });
-    }));
-  }
-
-  getSocketDataObservable(): Observable<any> {
-    return new Observable(observer => {
-        this.observer = observer;
-    });
+  getGeneralMeasurement(measurement: Measurement) {
+    const measurementValues = Object.values(measurement);
+    const generalMeasurement: GeneralMeasurement = {
+      value: measurementValues[0],
+      createdAt: measurementValues[1]
+    }
+    return generalMeasurement;
   }
 }
+
