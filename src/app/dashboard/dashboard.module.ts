@@ -7,9 +7,9 @@ import { TopbarComponent } from '../shared/topbar/topbar.component';
 import { StatsComponent } from './stats/stats.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { SharedModule } from '../shared/shared.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MyAccountComponent } from './my-account/my-account.component';
-import { SettingsComponent } from './settings/settings.component';
+import { InfoComponent } from './info/info.component';
 import { MeasurementsService } from '../core/services/measurements.service';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { SidenavItemComponent } from './sidenav-item/sidenav-item.component';
@@ -27,9 +27,11 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { SocketService } from '../core/services/socket.service';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { EmptyDataComponent } from './empty-data/empty-data.component';
+import { environment } from 'src/environments/environment';
+import { GalleryComponent } from './gallery/gallery.component';
 
-const config: SocketIoConfig = { url: 'http://localhost:5000', options: {transports: ['websocket'], upgrade: false} };
-
+const SOCKET_URL = environment.SOCKET_URL;
+const config: SocketIoConfig = { url: SOCKET_URL, options: {transports: ['websocket'], upgrade: false} };
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -38,7 +40,7 @@ const config: SocketIoConfig = { url: 'http://localhost:5000', options: {transpo
     PanelMenuItemComponent,
     StatsComponent,
     MyAccountComponent,
-    SettingsComponent,
+    InfoComponent,
     SidenavComponent,
     SidenavItemComponent,
     MainParameterComponent,
@@ -50,6 +52,7 @@ const config: SocketIoConfig = { url: 'http://localhost:5000', options: {transpo
     ParameterTitleComponent,
     ParameterComponent,
     EmptyDataComponent,
+    GalleryComponent,
   ],
   imports: [
     CommonModule,
@@ -57,9 +60,9 @@ const config: SocketIoConfig = { url: 'http://localhost:5000', options: {transpo
     SharedModule,
     FormsModule,
     GoogleChartsModule,
+    ReactiveFormsModule,
     GaugeModule.forRoot(),
     SocketIoModule.forRoot(config)
-
   ],
   exports: [
     SharedModule,
@@ -69,7 +72,10 @@ const config: SocketIoConfig = { url: 'http://localhost:5000', options: {transpo
   providers: [
     MeasurementsService,
     SocketService,
-    {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'},
+    {
+      provide: MAT_DATE_LOCALE, 
+      useValue: 'pl-PL'
+    },
   ]
 })
 export class DashboardModule { }
