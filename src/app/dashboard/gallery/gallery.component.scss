@@ -1,0 +1,85 @@
+@import 'variables';
+
+:host {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+}
+
+.container {
+  max-width: 840px;
+
+  .wrapper {
+    height: calc(100% - 60px);
+    padding: 15px;
+    cursor: auto;
+
+    h2 {
+      font-family: Montserrat-Bold;
+      font-size: $font-regular;
+      padding: .5rem 0;
+    }
+
+    @include media(tab-land) {
+      margin: 15px;
+    }
+
+    p {
+      font-size: $font-regular-small;
+      color: grey;
+    }
+
+    .input-file {
+      display: none
+    }
+
+    .file-wrapper {
+      display: inline-flex;
+      margin-top: 1rem;
+    }
+
+    .file-button {
+      //   background: red;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 200px;
+      height: 50px;
+      border: 2px dashed $grey-light;
+      border-radius: 10px;
+      color: gray
+    }
+
+    .file-name {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 1rem;
+    }
+
+    .images {
+      display: grid;
+      grid-template-columns: auto auto auto;
+    }
+
+    .image-wrapper {
+      padding: 1rem;
+      max-width: 100%;
+
+      img {
+        max-width: 100%;
+      }
+    }
+
+    button {
+      text-align: left;
+    }
+  }
+
+  .tile {
+    @include media(tab-land) {
+      padding: 15px;
+      box-shadow: 0px 0px 18px 1px #e7e7e7;
+    }
+
+    box-shadow: none;
+  }
+}
