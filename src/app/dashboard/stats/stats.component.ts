@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatCalendarCellCssClasses } from '@angular/material/datepicker/calendar-body';
 import { MeasurementsService } from 'src/app/core/services/measurements.service';
 
 @Component({
@@ -8,8 +7,8 @@ import { MeasurementsService } from 'src/app/core/services/measurements.service'
   styleUrls: ['./stats.component.scss']
 })
 export class StatsComponent implements OnInit {
-  selectedDate: any;
-  currentDate: any;
+  selectedDate: Date;
+  currentDate: Date;
   constructor(private measurementsService: MeasurementsService) { }
 
   ngOnInit(): void {
