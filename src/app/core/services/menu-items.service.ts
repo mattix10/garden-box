@@ -6,7 +6,8 @@ const MENU_ITEMS: MenuItem[] = [
     iconName: 'home',
     title: 'Strona główna',
     link: 'panel',
-    category: ''
+    category: '',
+    name: ''
   },
   {
     iconName: 'thermostat',
@@ -60,25 +61,35 @@ const MENU_ITEMS: MenuItem[] = [
     name: 'container',
     link: 'zbiornik',
     unit: '%',
-    category: 'devices'
+    category: 'devices',
   },
   {
     iconName: 'bar_chart',
     title: 'Statystyki',
     link: 'statystyki',
-    category: 'others'
+    category: 'others',
+    name: ''
+  },
+  {
+    iconName: 'image',
+    title: 'Galeria',
+    link: 'galeria',
+    category: 'others',
+    name: ''
   },
   {
     iconName: 'person',
     title: 'Moje konto',
     link: 'moje-konto',
-    category: 'others'
+    category: 'others',
+    name: ''
   },
   {
-    iconName: 'settings',
-    title: 'Ustawienia',
-    link: 'ustawienia',
-    category: 'others'
+    iconName: 'info',
+    title: 'Informacje',
+    link: 'informacje',
+    category: 'others',
+    name: ''
   }
 ]
 
