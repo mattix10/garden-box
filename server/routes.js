@@ -7,48 +7,57 @@ const auth = require('./auth');
 const {
   Op
 } = require("sequelize");
+const user = require('./user');
+const url = require('url');
+const filesController = require('./filesController');
+const fileUpload = require('express-fileupload');
 
 const ALLOWED_PARAMETERS = ['air', 'temperature', 'humidity', 'container', 'light'];
+router.use(fileUpload())
+router.post('/upload', filesController.uploadFile)
 
-router.get('zaloguj', async (req, res) => {
-  // const sensors = await Sensor.findAll();
-  // res.status(200).json(sensors)
-  res.status(204).json({
-    title: 'welcome!'
-  })
-});
+router.patch('/user', user.resetPassword); // zmienić na liczbe mnogą 'users'
 
 router.post('/registration', auth.registration);
 
-router.get('/:parameter/oneDay/:limit', async (req, res) => {
+router.post('/zaloguj', auth.login);
 
-  let limit;
+router.get('/:parameter/oneDay?', async (req, res) => {
+
+  const queryData = url.parse(req.url, true).query;
+  let limit = queryData.limit;
   limit = req.params.limit;
+
   if (!limit) limit = 13;
   const param = req.params.parameter;
-  console.log(param);
+
   if (!ALLOWED_PARAMETERS.includes(param)) res.status(400).send({
     title: 'Something went wrong!'
   });
 
   else {
-    let exclude = ALLOWED_PARAMETERS.filter(item => item !== param);
-    exclude.push('id')
-    const sensorData = await Sensor.findAll({
-      where: {
-        createdAt: {
-          [Op.gt]: new Date(new Date() - 36 * 60 * 60 * 1000)
+    try {
+      let exclude = ALLOWED_PARAMETERS.filter(item => item !== param);
+      exclude.push('id')
+      const sensorData = await Sensor.findAll({
+        where: {
+          createdAt: {
+            [Op.gt]: new Date(new Date() - 36 * 60 * 60 * 1000)
+          }
+        },
+        limit: limit,
+        order: [
+          ['createdAt', 'DESC']
+        ],
+        attributes: {
+          exclude
         }
-      },
-      limit: limit,
-      order: [
-        ['createdAt', 'DESC']
-      ],
-      attributes: {
-        exclude
-      }
-    });
-    res.status(200).json(sensorData);
+      });
+      res.status(200).json(sensorData);
+    } catch (err) {
+      console.error(err);
+      res.status(400);
+    }
   }
 })
 
@@ -61,65 +70,64 @@ router.get('/:parameter/:limit', async (req, res) => {
   });
 
   else {
-    const sensorData = await Sensor.findAndCountAll({
-      attributes: [param, 'createdAt'],
-      limit: limit,
-      order: [
-        ['createdAt', 'DESC']
-      ]
-    });
-    res.status(200).json(sensorData);
+    try {
+      const sensorData = await Sensor.findAndCountAll({
+        attributes: [param, 'createdAt'],
+        limit: limit,
+        order: [
+          ['createdAt', 'DESC']
+        ]
+      });
+      res.status(200).json(sensorData);
+    } catch (err) {
+      console.log(err);
+      res.status(400);
+    }
   }
 });
 
-router.get('/:parameter/:limit/:date', async (req, res) => {
+router.get('/:parameter?', async (req, res) => {
   let limit;
-  limit = req.params.limit;
+  limit = req.query.limit;
   let date;
-  date = req.params.date;
-  console.log(date)
-  if (!limit) limit = 10;
+  date = req.query.date;
+
+  if (!limit) limit = 11;
   const param = req.params.parameter;
-  console.log(param);
+
   if (!ALLOWED_PARAMETERS.includes(param)) res.status(400).send({
     title: 'Something went wrong!'
   });
 
   else {
-    let exclude = ALLOWED_PARAMETERS.filter(item => item !== param);
-    exclude.push('id')
-    const sensorData = await Sensor.findAll({
-      where: {
-        createdAt: {
-          [Op.like]: date + '%'
+    try {
+      let exclude = ALLOWED_PARAMETERS.filter(item => item !== param);
+      exclude.push('id');
+      const sensorData = await Sensor.findAll({
+        where: {
+          createdAt: {
+            [Op.like]: date + '%'
+          }
+        },
+        limit: limit,
+        order: [
+          ['createdAt', 'DESC']
+        ],
+        attributes: {
+          exclude
         }
-      },
-      limit: limit,
-      order: [
-        ['createdAt', 'DESC']
-      ],
-      attributes: {
-        exclude
-      }
-    });
-    res.status(200).json(sensorData);
+      });
+      res.status(200).json(sensorData);
+    } catch (err) {
+      console.log(err);
+      res.status(400);
+    }
   }
-})
+});
 
 router.get('/sensors', async (req, res) => {
   const sensors = await Sensor.findAll();
   res.status(200).json(sensors);
-});
-
-router.post('/zaloguj', auth.login);
-
-router.get('/user', async (req, res) => {
-
-  const user = await User.findOne({
-    email
-  });
-
-
 });
 
 module.exports = router;
