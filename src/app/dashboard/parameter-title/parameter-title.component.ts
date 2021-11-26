@@ -9,12 +9,13 @@ import { MenuItemsService } from 'src/app/core/services/menu-items.service';
 })
 export class ParameterTitleComponent implements OnInit {
 
-  parameters: any;
-  parametersTitle: any = [];
-  selectedParameter: any;
+  @Output() selectedParam: EventEmitter<MenuItem> = new EventEmitter<MenuItem>();
+
+  parameters: MenuItem[] = [];
+  parametersTitle: string[] = [];
+  selectedParameter: MenuItem | any;
 
   constructor(private menuItemsService: MenuItemsService) { }
-  @Output() selectedParam = new EventEmitter<MenuItem>();
 
   ngOnInit(): void {
     this.parameters = this.menuItemsService.getMenuItems().filter((item: MenuItem )=> (item.category == 'parameters' || item.name == 'container') );
