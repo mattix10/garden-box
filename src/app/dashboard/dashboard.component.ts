@@ -18,8 +18,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   parameters: MenuItem[] = [];
   isTabletResolution: boolean = false;
   paramaterMeasurements: Measurement[] = [];
-  mainDeviceIndex: number = -1;
-  mainDevice: any | null = null;
+  mainDeviceMeasurementIndex: number = -1;
+  mainDeviceMeasurement: Measurement;
   params: string[] = [];
 
   constructor(private socketService: SocketService, public router: Router, private menuItemsService: MenuItemsService, public breakpointObserver: BreakpointObserver) { }
@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.getResolution();
     this.menuItems = this.menuItemsService.getMenuItems();
     this.getParameters();
-    this.params = this.parameters.map((param: any) => param.name);
+    this.params = this.parameters.map((param: MenuItem): string => param.name);
     this.params.push('container');
     let measurements: Measurement[] = [];
 
@@ -55,20 +55,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .pipe(distinctUntilChanged())
       .subscribe((data: Measurement) => {
         let measurementIndex = measurements?.findIndex((m: Measurement) => m?.name == data?.name);
-
         if (measurementIndex != -1) {
           measurements[measurementIndex] = data;
         } else measurements.push(data);
-
         this.paramaterMeasurements = measurements;
-        // console.log(measurements)
-        if (this.mainDeviceIndex == -1) this.mainDeviceIndex = this.paramaterMeasurements.findIndex((m: Measurement) => m?.name == 'container');
-        this.mainDevice = this.paramaterMeasurements[this.mainDeviceIndex];
+        if (this.mainDeviceMeasurementIndex == -1) this.mainDeviceMeasurementIndex = this.paramaterMeasurements.findIndex((m: Measurement) => m?.name == 'container');
+        this.mainDeviceMeasurement = this.paramaterMeasurements[this.mainDeviceMeasurementIndex];
       });
   }
 
   ngOnDestroy() {
-    console.log('susuwam')
     this.socketService.removeListeners()
   }
 
@@ -85,8 +81,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getParameters() {
-    const parameters = this.menuItems.filter((item: MenuItem) => item.category === 'parameters');
-    this.parameters = parameters;
+    this.parameters = this.menuItems.filter((item: MenuItem) => item.category === 'parameters');
   }
 
 }
