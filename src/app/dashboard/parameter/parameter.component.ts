@@ -11,6 +11,7 @@ import { Measurement } from 'src/app/core/interfaces/Measurement';
 import { MenuItem } from 'src/app/core/interfaces/MenuItem';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { SliderService } from 'src/app/core/services/slider.service';
+import { ChartOptions } from 'src/app/core/interfaces/ChartOptions';
 
 @Component({
   selector: 'app-parameter',
@@ -26,12 +27,12 @@ export class ParameterComponent implements OnInit, OnDestroy {
   sliderValue: number | undefined;
   currentMeasurementValue: number | undefined;
   chartType = ChartType;
-  dataChart: Array<Array<string|number>> = [];
-  data: any = [];
+  dataChart: (string|number)[][] = [];
+  data: Measurement[] = [];
   link: string = '';
-  parameter: any;
+  parameter: MenuItem;
   sub: Subscription = new Subscription();
-  chartOptions: any;
+  chartOptions: ChartOptions;
   resultsLimit: number = 15;
 
   constructor(
@@ -51,7 +52,7 @@ export class ParameterComponent implements OnInit, OnDestroy {
     this.sub.add(this.socketService.listen(this.parameter.name)
       .pipe(
         // distinctUntilChanged((prev, curr) => prev.value === curr.value),
-        filter((data: Measurement) => data.name === this.parameter.name )
+        filter((data: Measurement) => data.name === this.parameter.name)
       ).subscribe((data: Measurement) => {
         this.currentMeasurementValue = data.value;
         console.log(data)
@@ -62,10 +63,12 @@ export class ParameterComponent implements OnInit, OnDestroy {
       this.sliderLoaded = true;
     }, 10);
 
-    this.measurementsService.getMeasurement(this.parameter.name, this.resultsLimit ).subscribe(data =>{
-      this.data = data;
-      this.dataChart = this.chartService.createDataForChart(this.data);
-      this.updateOptionTitle();}
+    this.measurementsService.getMeasurement(this.parameter.name, this.resultsLimit)
+      .subscribe((data: Measurement[]) =>{
+        this.data = data;
+        this.dataChart = this.chartService.createDataForChart(this.data);
+        this.updateOptionTitle();
+      }
     )
   }
 
@@ -74,7 +77,8 @@ export class ParameterComponent implements OnInit, OnDestroy {
   }
 
   getParameter() {
-    this.parameter = this.menuItemService.getMenuItems().find((item: MenuItem) => item.link == this.link);
+    const parameter = this.menuItemService.getMenuItems().find((item: MenuItem) => item.link === this.link);
+    if (parameter) this.parameter = parameter;
   }
 
   ngOnDestroy() {
@@ -98,11 +102,11 @@ export class ParameterComponent implements OnInit, OnDestroy {
 
   updateValue(event: any) {
     this.slider.value = event?.value;
-    this.socketService.emitInitValue(this.parameter.name,this.slider.value);
+    this.socketService.emitInitValue(this.parameter.name, this.slider.value);
     this.sliderService.setSliderValue(this.parameter.name, this.slider.value);
   }
 
-  formatLabel(value: number | null) {
+  formatLabel(value: number): number {
     if (!value) return 0;
     return value;
   }
