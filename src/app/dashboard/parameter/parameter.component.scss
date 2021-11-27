@@ -72,7 +72,27 @@ p {
   box-shadow: none;
 }
 
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100% - 60px);
+}
+
+.inside {
+  position: relative;
+}
+
+
+
 ::ng-deep {
+  .mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+    background: $green-light !important;
+  }
+
+  .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+    background: $green-dark !important;
+  }
 
   .mat-slider-disabled .mat-slider-thumb {
     border-width: 1px !important;
