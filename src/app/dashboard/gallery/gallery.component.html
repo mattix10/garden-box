@@ -1,41 +1,30 @@
 <div class="container">
   <div class="wrapper tile">
     <h2>Galeria </h2>
-
-    <input type="file" class="input-file" (change)="onSelectFile($event)" #fileUpload>
-    <!-- <div (click)="fileUpload.click()" class="file-wrapper">
-      Dołącz plik
-    </div> -->
-    <div class="file-wrapper">
-      <button (click)="fileUpload.click()" mat-button class="file-button">
-        Dołącz plik
-      </button>
+    <form encType="multipart/form-data">
+      <input type="file" accept="image/*" class="input-file" (change)="onSelectFile($event)" #fileUpload>
+      <!-- <div (click)="fileUpload.click()" class="file-wrapper">
+    Dołącz plik
+  </div> -->
+      <div class="file-wrapper">
+        <button (click)="fileUpload.click()" mat-button class="file-button" type="button">
+          Dołącz plik
+        </button>
+      </div>
       <div class="file-name">
 
         {{fileName || ""}}
       </div>
-    </div>
+    </form>
+
 
     <div class="images">
-      <div class="image-wrapper">
-        <img src="../../../assets/img/light.jpg">
-        <p>Zdj nr 1</p>
+      <div class="image-wrapper" *ngFor="let image of images">
+        <img src="../../../assets/images/{{image.name}}">
+        <p class="text-center">{{image.name}}</p>
+        <p class="text-center">{{image.createdAt}}</p>
       </div>
-      <div class="image-wrapper">
-        <img src="../../../assets/img/light.jpg">
-      </div>
-      <div class="image-wrapper">
-        <img src="../../../assets/img/light.jpg">
-      </div>
-      <div class="image-wrapper">
-        <img src="../../../assets/img/light.jpg">
-      </div>
-      <div class="image-wrapper">
-        <img src="../../../assets/img/light.jpg">
-      </div>
-      <div class="image-wrapper">
-        <img src="../../../assets/img/light.jpg">
-      </div>
+
     </div>
   </div>
 </div>
