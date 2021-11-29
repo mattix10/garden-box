@@ -6,40 +6,58 @@ const bcrypt = require('bcrypt');
 const SECRET_KEY = uuid();
 
 exports.login = async (req, res) => {
+  let user;
 
-  const user = await User.findOne({
-    where: {
-      email: req.body.email
-    }
-  })
+  try {
+    user = await User.findOne({
+      where: {
+        email: req.body.email
+      }
+    })
+  } catch (err) {
+    console.log(err);
+    res.status(500);
+  }
 
   if (!user) res.sendStatus(404);
 
-  const result = await bcrypt.compare(req.body.password, user.password);
+  let result;
 
-  if (result) {
-    createUserToken(user, res);
-  } else res.sendStatus(404);
+  try {
+    result = await bcrypt.compare(req.body.password, user.password);
+
+    if (result) {
+      createUserToken(user, res);
+    } else res.sendStatus(404);
+  } catch (err) {
+    console.log(err);
+    res.status(500);
+  }
+
 }
 
 exports.registration = async (req, res) => {
 
-  hashedPassword = await bcrypt.hash(req.body.password, 3);
+  try {
+    hashedPassword = await bcrypt.hash(req.body.password, 3);
 
-  const user = await User.create({
-    email: req.body.email,
-    password: hashedPassword
-  });
+    const user = await User.create({
+      email: req.body.email,
+      password: hashedPassword
+    });
 
-  createUserToken(user, res);
+    createUserToken(user, res);
+  } catch (err) {
+    console.log(err);
+    res.status(500);
+  }
+
 }
 
 createUserToken = async (user, res) => {
   const payload = {
-    subject: user.email
+    email: user.email
   };
-
-  console.log(payload)
 
   const token = jwt.sign(payload, SECRET_KEY, {
     expiresIn: '60'
@@ -47,6 +65,6 @@ createUserToken = async (user, res) => {
 
   res.status(200).json({
     token: token,
-    user: user.email
+    email: user.email
   });
 }
