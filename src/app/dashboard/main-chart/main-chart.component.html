@@ -1,6 +1,5 @@
 <div class="wrapper tile">
   <h2>{{selectedParameter?.title}}
-    <!-- <span>[Ostatnie 24 godziny]</span> -->
   </h2>
   <app-parameter-title (selectedParam)="onSelectedParam($event)"></app-parameter-title>
   <google-chart *ngIf="dataChart.length" #googleChart [data]="dataChart" [type]="chartType.AreaChart"
