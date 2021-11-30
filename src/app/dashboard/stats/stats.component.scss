@@ -17,7 +17,7 @@ h2 {
   }
 }
 
-.wrap {
+.calendar-wrapper {
   padding: 15px;
 
   @include media(tab-port) {
@@ -41,7 +41,7 @@ h2 {
   min-height: 400px;
 }
 
-.wrap1 {
+.table-wrapper {
   @include media(tab-port) {
     width: 70%;
   }
@@ -64,5 +64,4 @@ h2 {
 
 ::ng-deep .mat-calendar-body-cell-content.mat-focus-indicator:hover {
   background-color: none !important;
-  // color: $green-dark !important;
 }
