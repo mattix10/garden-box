@@ -27,8 +27,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatSlideToggleModule,
     MatProgressSpinnerModule,
     MatDatepickerModule,
-    MatNativeDateModule
-    // MatTableModule
+    MatNativeDateModule,
   ],
   exports: [
     MatSliderModule,
@@ -41,7 +40,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatSlideToggleModule,
     MatProgressSpinnerModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
   ]
 })
 export class SharedModule { }
