@@ -56,14 +56,6 @@ const MENU_ITEMS: MenuItem[] = [
     backgroundColor: '#A9DFFE'
   },
   {
-    iconName: 'inventory',
-    title: 'Zbiornik',
-    name: 'container',
-    link: 'zbiornik',
-    unit: '%',
-    category: 'devices',
-  },
-  {
     iconName: 'bar_chart',
     title: 'Statystyki',
     link: 'statystyki',
