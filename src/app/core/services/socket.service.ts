@@ -5,41 +5,46 @@ import { Observable, Subscriber } from 'rxjs';
 @Injectable()
 export class SocketService {
   
-  observer: Subscriber<any> = new Subscriber();
-  interval: number;
-  interval2: number;
-  interval3: number;
-  interval4: number;
+  private observer: Subscriber<any> = new Subscriber();
+  listenParameterInterval: number;
+  listenAllParametersInterval: number;
+  emitValueInterval: number;
+  emitAllValuesInterval: number;
 
   constructor(private socket: Socket) {}
 
-  emitInitValue(paramName: string, value: any) {
+  private getSocketDataObservable(): Observable<any> {
+    return new Observable(observer => {
+        this.observer = observer;
+    });
+  }
+
+  emitInitialValue(paramName: string, value: number): void {
     this.socket.emit(paramName, value);
   }
 
-  emitValue(paramName: string, value: any) {
-    this.interval2 = window.setInterval(()=> {
+  emitValue(paramName: string, value: any): void {
+    this.emitValueInterval = window.setInterval(()=> {
       this.socket.emit(paramName, {value, time: 5000});
     }, 5000);
   }
 
-  emitAllValues(parameterNames: string[]) {
+  emitAllValues(parameterNames: string[]): void {
     parameterNames.forEach((param: string) => {
       this.socket.emit(param, {time: 5000} )
     });
-    this.interval3 = window.setInterval(()=> {
-      console.log('tutaj')
+    this.emitAllValuesInterval = window.setInterval(()=> {
       parameterNames.forEach((param: string) => {
         this.socket.emit(param, {time: 5000})
       });
     }, 5000);
   }
 
-  listen(paramName: string): Observable<any>{
+  listenParameter(paramName: string): Observable<any>{
     this.socket.once(paramName, (data: any) => {
       this.observer.next(data);
     })
-    this.interval = window.setInterval(()=> {
+    this.listenParameterInterval = window.setInterval(()=> {
       this.socket.once(paramName, (data: any) => {
         this.observer.next(data);
       })
@@ -55,7 +60,7 @@ export class SocketService {
       });
     });
 
-    this.interval4 = window.setInterval(()=> {
+    this.listenAllParametersInterval = window.setInterval(()=> {
       parameterNames.forEach((paramName: string) => {
         this.socket.once(paramName, (data: any) => {
           this.observer.next(data);
@@ -65,17 +70,11 @@ export class SocketService {
     return this.getSocketDataObservable();
   }
 
-  getSocketDataObservable(): Observable<any> {
-    return new Observable(observer => {
-        this.observer = observer;
-    });
-  }
-
-  removeListeners() {
+  removeListeners(): void {
     this.observer.next(null);
-    clearInterval(this.interval);
-    clearInterval(this.interval2);
-    clearInterval(this.interval3);
-    clearInterval(this.interval4)
+    clearInterval(this.listenParameterInterval);
+    clearInterval(this.listenAllParametersInterval)
+    clearInterval(this.emitValueInterval);
+    clearInterval(this.emitAllValuesInterval);
   }
 }
