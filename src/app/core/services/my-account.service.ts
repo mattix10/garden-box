@@ -17,12 +17,8 @@ export class MyAccountService {
     return this.http.get<User>(`${API_URL}/user`);
   }
 
-  editPlant(plant: string): Observable<any> {
-    return this.http.patch(`${API_URL}/users`, plant);
-  }
-
   editPassword(email:string, newPassword: string): Observable<any>{
     console.log(newPassword);
-    return this.http.patch(`${API_URL}/user`, {email, newPassword})
+    return this.http.patch<User>(`${API_URL}/user`, {email, newPassword})
   }
 }
