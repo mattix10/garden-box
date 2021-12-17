@@ -1,7 +1,10 @@
 const sequelize = require('sequelize');
 const Measurement = require('../models/Measurement');
 const ALLOWED_PARAMETERS = ['air', 'temperature', 'humidity', 'container', 'light'];
-
+const {
+  Op
+} = require("sequelize");
+const url = require('url');
 exports.getParameter = async (req, res) => {
   const param = req.params.parameter;
   const limit = req.params.limit;
@@ -27,7 +30,7 @@ exports.getParameter = async (req, res) => {
   }
 }
 
-exports.getDateParameter = async (req, res) => async (req, res) => {
+exports.getDateParameter = async (req, res) => {
   let limit;
   limit = req.query.limit;
   let date;
