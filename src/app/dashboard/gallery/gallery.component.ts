@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FileService } from 'src/app/core/services/file.service';
+import { Image } from 'src/app/core/interfaces/Image';
+import { ImageService } from 'src/app/core/services/image.service';
 
 @Component({
   selector: 'app-gallery',
@@ -9,32 +10,41 @@ import { FileService } from 'src/app/core/services/file.service';
 })
 export class GalleryComponent implements OnInit {
 
-  fileName: string = '';
-  constructor(private fileService: FileService) { }
+  filename: string = '';
   images$: Observable<any>;
-  images: any[] = [];
+  images: Image[] = [];
   @ViewChild('fileUpload') fileUpload: any;
 
+  constructor(private imageService: ImageService) { }
+
   ngOnInit(): void {
-    // this.images$ = this.fileService.getImages().pipe(startsWith([]))
-    this.fileService.getImages().subscribe(data => {
+    this.getImages();
+  }
+
+  getImages() {
+    this.imageService.getImages().subscribe((data: any) => {
       console.log(data)
       this.images = data.images
     })
   }
 
-  onSelectFile(event: any) {
+  onSelectFile(event: any): void {
     event.preventDefault();
     const file:File = event.target.files[0];
 
     if (file) {
-        this.fileName = file.name;
+        this.filename = file.name;
         const formData = new FormData();
         formData.append("image", file);
-
-        this.fileService.upload(formData).subscribe(data => console.log(data));
+        this.imageService.upload(formData).subscribe((data: any) => console.log(data));
     }
-}
+  }
 
+  removeImage(image: Image): void {
+    this.imageService.removeImage(image.name)
+      .subscribe(() => {
+        this.getImages();
+    });
+  }
 }
 

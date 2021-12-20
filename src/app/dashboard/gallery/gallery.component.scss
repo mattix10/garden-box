@@ -56,28 +56,6 @@
       padding: 0 1rem;
     }
 
-    .images {
-      display: grid;
-      grid-template-columns: auto auto auto;
-
-      .image-wrapper {
-        padding: 1rem;
-        max-width: 300px;
-
-        img {
-          max-width: 100%;
-          max-height: 100%;
-          border-radius: 1rem;
-          min-height: 220px;
-          object-fit: cover;
-        }
-
-        p {
-          padding: .5rem 0 0
-        }
-      }
-    }
-
     button {
       text-align: left;
     }
@@ -90,5 +68,39 @@
     }
 
     box-shadow: none;
+  }
+}
+
+.images {
+  display: grid;
+  grid-template-columns: auto;
+
+  @include media(tab-port) {
+    grid-template-columns: auto auto auto;
+  }
+
+  .image-wrapper {
+    padding: 1rem;
+    max-width: 300px;
+    margin: auto;
+
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 1rem;
+      min-height: 220px;
+      object-fit: cover;
+    }
+
+    p {
+      padding: .5rem 0 0
+    }
+
+    .delete {
+      position: relative;
+      top: -2rem;
+      left: 0;
+      cursor: pointer;
+    }
   }
 }
