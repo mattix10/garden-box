@@ -5,6 +5,7 @@ const {
   Op
 } = require("sequelize");
 const url = require('url');
+const moment = require('moment');
 exports.getParameter = async (req, res) => {
   const param = req.params.parameter;
   const limit = req.params.limit;
@@ -105,5 +106,48 @@ exports.getOneDayParameter = async (req, res) => {
       console.error(err);
       res.status(400);
     }
+  }
+}
+
+readParameter = async (filename) => {
+  return new Promise((resolve, reject) => {
+      fs.readFile(`./setValues/${filename}.txt`, 'utf-8', (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+}
+
+exports.createMeasurement = async () => {
+  try {
+    const humidity = await readParameter('outputHumidity');
+    const light = await readParameter('outputLight');
+    const temperature = await readParameter('outputTemperature');
+    const airHumidity = await readParameter('outputAirHumidity');
+    console.log('humidityValue: ', humidity)
+    console.log('light: ', light);
+    console.log('temperature: ', temperature)
+    console.log('airHumidity: ', airHumidity)
+    let now = new moment();
+
+    await Measurement.create({
+      light: light,
+      temperature: temperature,
+      humidity: humidity,
+      container: 0,
+      air: airHumidity,
+      createdAt: now.format("YYYY-MM-DD HH:mm:ss")
+    })
+  } catch (err) {
+    console.error(err)
   }
 }
