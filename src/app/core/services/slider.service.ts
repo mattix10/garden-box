@@ -5,41 +5,34 @@ import { Injectable } from '@angular/core';
 })
 export class SliderService {
 
-  sliderTemperatureValue: number = 27;
-  sliderHumidityValue: number = 75;
-  sliderLightValue: number = 50;
-  sliderContainerValue: number = 0;
+  private sliderTemperature: number = 27;
+  private sliderHumidity: number = 75;
+  private sliderLight: number = 0;
 
   constructor() { }
 
-  getSliderValue(paramName: string): number  {
+  getSliderValue(paramName: string): any  {
+    console.log(paramName)
     switch (paramName) {
       case ('temperature'):
-        return this.sliderTemperatureValue;
+        return this.sliderTemperature;
       case ('light'):
-        return this.sliderLightValue;
+        return this.sliderLight;
       case ('humidity'):
-        return this.sliderHumidityValue;
-      case ('container'):
-        return this.sliderContainerValue;
-      default:
-        return 0
+        return this.sliderHumidity;
     }
   }
 
   setSliderValue(paramName: string, value: number): void {
     switch (paramName) {
       case ('temperature'):
-        this.sliderTemperatureValue = value;
+        this.sliderTemperature = value;
         break;
       case ('light'):
-        this.sliderLightValue = value;
+        this.sliderLight = value;
         break;
       case ('humidity'):
-        this.sliderHumidityValue = value;
-        break;
-      case ('container'):
-        this.sliderContainerValue = value;
+        this.sliderHumidity = value;
         break;
     }
   }
