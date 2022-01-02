@@ -6,23 +6,17 @@ const SECRET_KEY = uuid();
 
 exports.login = async (req, res) => {
   let user;
-
   try {
     user = await User.findOne({
       where: {
         email: req.body.email
       }
     })
-  } catch (err) {
-    console.log(err);
-    res.status(500);
-  }
 
-  if (!user) res.sendStatus(404);
+    if (!user) res.sendStatus(404);
 
-  let result;
+    let result;
 
-  try {
     result = await bcrypt.compare(req.body.password, user.password);
 
     if (result) {
@@ -49,15 +43,12 @@ exports.registration = async (req, res) => {
       message: 'Użytkownik o takim adresie już istnieje.'
     })
     else {
-
       hashedPassword = await bcrypt.hash(req.body.password, 3);
 
       const user = await User.create({
         email: req.body.email,
         password: hashedPassword
       });
-      console.log('tutaj')
-
       createUserToken(user, res);
     }
   } catch (err) {
