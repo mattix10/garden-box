@@ -1,9 +1,6 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const {
-  Sequelize
-} = require('sequelize');
 const moment = require('moment');
 
 exports.resetPassword = async (req, res) => {
@@ -39,8 +36,6 @@ exports.getImages = async (req, res) => {
   const token = req.headers.authorization.replace('Bearer ', '');
   const decoded = jwt.decode(token);
   const email = decoded.email;
-  console.log('getimages');
-  console.log(email)
 
   try {
 
@@ -69,10 +64,9 @@ exports.uploadImage = async (req, res) => {
   const decoded = jwt.decode(token);
   const email = decoded.email;
   try {
+
     if (!req.files) {
-      // res.status(400).send({
-      //   message: 'Brak pliku!'
-      // });
+      throw new Error();
     } else {
       let img = req.files.image;
       img.mv('./../src/assets/images/' + img.name);
@@ -81,14 +75,6 @@ exports.uploadImage = async (req, res) => {
           email
         }
       })
-
-      // user.images.push(img.name)
-      // console.log(img.name)
-      // let arrays = Object.assign(user.images, {
-      //   name: img.name
-      // });
-      // JSON.stringify(arrays);
-      // let now = new moment();
       if (user.images == null) user.images = []
       user.images.push({
         name: img.name,
@@ -106,9 +92,6 @@ exports.uploadImage = async (req, res) => {
       })
       user.changed('images', true)
       await user.save();
-
-
-
       res.status(201).json({
         status: true,
         message: 'Plik został wgrany.',
