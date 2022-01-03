@@ -1,9 +1,10 @@
 @import 'variables';
 
-.cont {
+.container {
   width: 250px;
   background: white;
   height: 100%;
+  overflow: auto;
 
   @include media(large) {
     width: 300px;
@@ -24,6 +25,7 @@
     display: flex;
     flex-direction: column;
     font-family: OpenSans-SemiBold;
+
 
     .category {
       padding: 1.5rem 1.75rem .5rem;
