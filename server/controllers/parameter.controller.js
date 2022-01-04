@@ -6,6 +6,8 @@ const {
 } = require("sequelize");
 const url = require('url');
 const moment = require('moment');
+const fs = require('fs');
+
 exports.getParameter = async (req, res) => {
   const param = req.params.parameter;
   const limit = req.params.limit;
@@ -133,10 +135,6 @@ exports.createMeasurement = async () => {
     const light = await readParameter('outputLight');
     const temperature = await readParameter('outputTemperature');
     const airHumidity = await readParameter('outputAirHumidity');
-    console.log('humidityValue: ', humidity)
-    console.log('light: ', light);
-    console.log('temperature: ', temperature)
-    console.log('airHumidity: ', airHumidity)
     let now = new moment();
 
     await Measurement.create({
