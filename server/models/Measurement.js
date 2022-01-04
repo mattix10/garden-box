@@ -1,7 +1,6 @@
 const {
   Model,
-  DataTypes,
-  DATE
+  DataTypes
 } = require('sequelize');
 const sequelize = require('../database');
 const Plant = require('./Plant');
@@ -38,7 +37,12 @@ Measurement.init({
 })
 
 Measurement.beforeCreate(plant => plant.id = uuid());
+Measurement.belongsTo(Plant, {
+  foreignKey: 'id'
+});
 
-Measurement.belongsTo(Plant);
+Plant.hasMany(Measurement, {
+  foreignKey: 'id'
+});
 
 module.exports = Measurement;
