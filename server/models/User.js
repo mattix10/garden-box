@@ -31,6 +31,11 @@ User.init({
 })
 
 User.beforeCreate(user => user.id = uuid());
-// User.belongsTo(Plant);
 
+User.belongsTo(Plant, {
+  foreignKey: 'id'
+});
+Plant.hasMany(User, {
+  foreignKey: 'id'
+});
 module.exports = User;
