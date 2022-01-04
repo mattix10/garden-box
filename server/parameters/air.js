@@ -1,22 +1,20 @@
-const Sensor = require('../models/Sensor');
-let airValue = 88;
+let airValue;
+const fs = require('fs');
 
 exports.socketAir = function (socket) {
-  socket.on('air', (value) => {
+
+  socket.on('air', () => {
+    fs.readFile('./setValues/outputAirHumidity.txt', 'utf8', function (err, data) {
+      if (err) {
+        return console.log(err);
+      }
+      airValue = data;
+    });
 
     socket.emit('air', {
-      date: new Date().toLocaleTimeString(),
+      createdAt: new Date().toLocaleTimeString(),
       value: airValue,
       name: 'air'
     });
-    console.log('air', value)
   })
 }
-
-exports.getAir = () => airValue + Math.floor(Math.random() * 7)
-// exports.getAir = async () => {
-//   await Sensor.create({
-//     value: airValue + Math.floor(Math.random() * 7),
-//     name: 'air'
-//   });
-// }
