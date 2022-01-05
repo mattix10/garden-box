@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { Observable, Subscriber } from 'rxjs';
 
+const DELAY = 1000;
 @Injectable()
 export class SocketService {
   
@@ -20,24 +21,24 @@ export class SocketService {
   }
 
   emitInitialValue(paramName: string, value: number): void {
-    this.socket.emit(paramName, value);
+    this.socket.emit('set'+paramName, value);
   }
 
   emitValue(paramName: string, value: any): void {
     this.emitValueInterval = window.setInterval(()=> {
-      this.socket.emit(paramName, {value, time: 5000});
-    }, 5000);
+      this.socket.emit(paramName);
+    }, DELAY);
   }
 
   emitAllValues(parameterNames: string[]): void {
     parameterNames.forEach((param: string) => {
-      this.socket.emit(param, {time: 5000} )
+      this.socket.emit(param)
     });
     this.emitAllValuesInterval = window.setInterval(()=> {
       parameterNames.forEach((param: string) => {
-        this.socket.emit(param, {time: 5000})
+        this.socket.emit(param)
       });
-    }, 5000);
+    }, DELAY);
   }
 
   listenParameter(paramName: string): Observable<any>{
@@ -48,7 +49,7 @@ export class SocketService {
       this.socket.once(paramName, (data: any) => {
         this.observer.next(data);
       })
-    }, 5000);
+    }, DELAY);
 
     return this.getSocketDataObservable();
   }
@@ -66,7 +67,7 @@ export class SocketService {
           this.observer.next(data);
         });
       });
-    }, 5000);
+    }, DELAY);
     return this.getSocketDataObservable();
   }
 
