@@ -1,26 +1,29 @@
-// const Gpio = require('onoff').Gpio;
-// var LED = new Gpio(4, 'out');
-const Sensor = require('../models/Sensor');
-let lightValue = 50;
+let lightValue;
+const fs = require('fs');
 
 exports.socketLight = function (socket) {
-  socket.on('light', (value) => {
+
+  socket.on('light', () => {
+    fs.readFile('./setValues/outputLight.txt', 'utf8', function (err, data) {
+      if (err) {
+        return console.log(err);
+      }
+      lightValue = data;
+    });
+
     socket.emit('light', {
-      date: new Date().toLocaleTimeString(),
-      value: lightValue,
+      createdAt: new Date().toLocaleTimeString(),
+      value: +lightValue,
       name: 'light'
     });
-    //   if (LED.readSync() === 0) {
-    //       LED.writeSync(1);} else {
-    //       LED.writeSync(0);}
-    //   console.log('Oświetlenie', value)
+  })
+
+  socket.on('setlight', value => {
+    fs.writeFile('./setValues/light.txt', `${value}`, err => {
+      if (err) {
+        console.error(err);
+        return
+      }
+    });
   })
 }
-
-exports.getLight = () => lightValue + Math.floor(Math.random() * 7)
-// exports.getLight = () => {
-//   await Sensor.create({
-//     value: lightValue + Math.floor(Math.random() * 7),
-//     name: 'light'
-//   });
-// }
