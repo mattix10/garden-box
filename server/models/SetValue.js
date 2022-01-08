@@ -31,7 +31,11 @@ SetValue.init({
 })
 
 SetValue.beforeCreate(setValue => setValue.id = uuid());
+SetValue.belongsTo(Plant, {
+  foreignKey: 'id'
+});
 
-SetValue.belongsTo(Plant);
-
+Plant.hasMany(SetValue, {
+  foreignKey: 'id'
+});
 module.exports = SetValue;
