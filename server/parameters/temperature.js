@@ -1,21 +1,29 @@
-let tempValue = 23;
-const Sensor = require('../models/Sensor');
+let tempValue;
+const fs = require('fs');
 
 exports.socketTemperature = function (socket) {
-  socket.on('temperature', value => {
+  socket.on('temperature', () => {
+
+    fs.readFile('./setValues/outputTemperature.txt', 'utf8', function (err, data) {
+      if (err) {
+        return console.log(err);
+      }
+      tempValue = data;
+    });
+
     socket.emit('temperature', {
-      date: new Date().toLocaleTimeString(),
+      createdAt: new Date().toLocaleTimeString(),
       value: tempValue,
       name: 'temperature'
     });
-    console.log('Temperatura', tempValue, value)
+  })
+
+  socket.on('settemperature', value => {
+    fs.writeFile('./setValues/temperature.txt', `${value}`, err => {
+      if (err) {
+        console.error(err);
+        return
+      }
+    });
   })
 }
-
-exports.getTemperature = () => tempValue + Math.floor(Math.random() * 7);
-// exports.getTemperature = async () => {
-//   await Sensor.create({
-//     value: tempValue + Math.floor(Math.random() * 7),
-//     name: 'temperature'
-//   });
-// }
