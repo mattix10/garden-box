@@ -1,5 +1,5 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Component, OnDestroy, OnInit, ViewChildren } from '@angular/core';
+import { Component, OnChanges, OnDestroy, OnInit, ViewChildren } from '@angular/core';
 import { ChartType } from 'src/app/core/enums/chartType';
 import { MeasurementsService } from 'src/app/core/services/measurements.service';
 import { filter } from 'rxjs/operators';
@@ -12,13 +12,14 @@ import { MenuItem } from 'src/app/core/interfaces/MenuItem';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { SliderService } from 'src/app/core/services/slider.service';
 import { ChartOptions } from 'src/app/core/interfaces/ChartOptions';
+import { ModeService } from 'src/app/core/services/mode.service';
 
 @Component({
   selector: 'app-parameter',
   templateUrl: './parameter.component.html',
   styleUrls: ['./parameter.component.scss']
 })
-export class ParameterComponent implements OnInit, OnDestroy {
+export class ParameterComponent implements OnInit, OnDestroy, OnChanges {
 
   @ViewChildren('slider') slider: {value: number} = {value: 0};
 
@@ -31,7 +32,7 @@ export class ParameterComponent implements OnInit, OnDestroy {
   data: Measurement[] = [];
   link: string = '';
   parameter: MenuItem;
-  sub: Subscription = new Subscription();
+  subscription: Subscription = new Subscription();
   chartOptions: ChartOptions;
   resultsLimit: number = 15;
 
@@ -42,23 +43,30 @@ export class ParameterComponent implements OnInit, OnDestroy {
     private menuItemService: MenuItemsService, 
     public breakpointObserver: BreakpointObserver, 
     private location: Location,
-    private sliderService: SliderService) { 
+    private sliderService: SliderService,
+    private modeService: ModeService) { 
+  }
+
+  ngOnChanges() {
+    if(this.parameter.name) this.sliderValue = this.sliderService.getSliderValue(this.parameter.name)
   }
 
   ngOnInit(): void {
     this.getLink();
     this.getParameter();
-    this.sliderValue = this.sliderService.getSliderValue(this.parameter.name);
-    this.sub.add(this.socketService.listen(this.parameter.name)
+    this.subscription.add(this.socketService.listenParameter(this.parameter.name)
       .pipe(
         // distinctUntilChanged((prev, curr) => prev.value === curr.value),
         filter((data: Measurement) => data.name === this.parameter.name)
       ).subscribe((data: Measurement) => {
         this.currentMeasurementValue = data.value;
-        console.log(data)
+        // console.log(data)
       }));
     this.socketService.emitValue(this.parameter.name,this.slider.value);
+    this.sliderValue = this.sliderService.getSliderValue(this.parameter.name);
+    console.log(this.sliderValue)
     this.updateValue(this.slider);
+    this.mode = this.modeService.getMode(this.parameter.name);
     setTimeout(() => {
       this.sliderLoaded = true;
     }, 10);
@@ -72,21 +80,21 @@ export class ParameterComponent implements OnInit, OnDestroy {
     )
   }
 
-  getLink() {
+  getLink(): void {
     this.link = this.extractChildUrl(this.location.path());
   }
 
-  getParameter() {
+  getParameter(): void {
     const parameter = this.menuItemService.getMenuItems().find((item: MenuItem) => item.link === this.link);
     if (parameter) this.parameter = parameter;
   }
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
     this.socketService.removeListeners();
   }
 
-  updateOptionTitle() {
+  updateOptionTitle(): void {
     const title = `${this.parameter.title} [${this.parameter.unit}]`;
     this.chartOptions = this.chartService.getChartOptions();
     this.chartOptions.vAxis.title = title;
@@ -100,15 +108,20 @@ export class ParameterComponent implements OnInit, OnDestroy {
     return decodeURI(newPath);
   }
 
-  updateValue(event: any) {
+  updateValue(event: any): void {
     this.slider.value = event?.value;
-    this.socketService.emitInitValue(this.parameter.name, this.slider.value);
+    this.socketService.emitInitialValue(this.parameter.name, this.slider.value);
     this.sliderService.setSliderValue(this.parameter.name, this.slider.value);
   }
 
   formatLabel(value: number): number {
     if (!value) return 0;
     return value;
+  }
+
+  setMode() {
+    console.log(!this.mode)
+    this.modeService.setMode(this.parameter.name, !this.mode);
   }
 
 }
