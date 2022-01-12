@@ -19,11 +19,6 @@ export class SidenavComponent implements OnInit {
     return parameters;
   }
 
-  get devices() {
-    const devices = this.menuItems.filter(item => item.category === 'devices');
-    return devices;
-  }
-
   get others() {
     const others = this.menuItems.filter(item => item.category === 'others');
     return others;
@@ -33,7 +28,7 @@ export class SidenavComponent implements OnInit {
     this.menuItems = this.menuItemsService.getMenuItems();
   }
 
-  selectItem(itemName: string) {
+  selectItem(itemName: string): void {
     this.selectedItem = itemName;
   }
 
