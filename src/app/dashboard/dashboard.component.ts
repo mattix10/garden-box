@@ -18,8 +18,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   parameters: MenuItem[] = [];
   isTabletResolution: boolean = false;
   paramaterMeasurements: Measurement[] = [];
-  mainDeviceMeasurementIndex: number = -1;
-  mainDeviceMeasurement: Measurement;
   params: string[] = [];
 
   constructor(private socketService: SocketService, public router: Router, private menuItemsService: MenuItemsService, public breakpointObserver: BreakpointObserver) { }
@@ -34,7 +32,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     if (this.router.url === '/panel') {
       this.socketService.emitAllValues(this.params);
-      this.listen(measurements);
+      this.listenResults(measurements);
     }
 
     this.router.events.pipe(
@@ -43,14 +41,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
       if (data.url === '/panel') {
         this.socketService.emitAllValues(this.params);
-        this.listen(measurements);
+        this.listenResults(measurements);
       } else {
         this.socketService.removeListeners();
       }
     })
   }
 
-  listen(measurements: Measurement[]) {
+  listenResults(measurements: Measurement[]) {
     this.socketService.listenAllParameters(this.params)
       .pipe(distinctUntilChanged())
       .subscribe((data: Measurement) => {
@@ -59,8 +57,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
           measurements[measurementIndex] = data;
         } else measurements.push(data);
         this.paramaterMeasurements = measurements;
-        if (this.mainDeviceMeasurementIndex == -1) this.mainDeviceMeasurementIndex = this.paramaterMeasurements.findIndex((m: Measurement) => m?.name == 'container');
-        this.mainDeviceMeasurement = this.paramaterMeasurements[this.mainDeviceMeasurementIndex];
       });
   }
 
@@ -68,7 +64,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.socketService.removeListeners()
   }
 
-  getResolution() {
+  private getResolution(): void {
     this.breakpointObserver.observe([
       Breakpoints.Tablet
         ]).subscribe(result => {
@@ -80,7 +76,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         });
   }
 
-  getParameters() {
+  getParameters(): void {
     this.parameters = this.menuItems.filter((item: MenuItem) => item.category === 'parameters');
   }
 
