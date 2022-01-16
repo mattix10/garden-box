@@ -15,8 +15,6 @@ import { ChartType } from '../../core/enums/chartType';
 })
 export class MainChartComponent implements OnInit {
 
-  @ViewChild('googleChart') google: any;
-
   chartType = ChartType;
   parameters: MenuItem[] = [];
   parametersTitle: string[] = [];
@@ -38,7 +36,7 @@ export class MainChartComponent implements OnInit {
     this.chartOptions.vAxis.title = this.parameters[0].unit;
   }
 
-  onSelectedParam(param: MenuItem) {
+  onSelectedParam(param: MenuItem): void {
     this.selectedParameter = param;
     if(this.router.url == '/panel/statystyki') {
       this.getDateMeasurement();
@@ -46,14 +44,14 @@ export class MainChartComponent implements OnInit {
     this.chartOptions.vAxis.title = param.unit;
   }
 
-  getMeasurement(param: MenuItem) {
+  getMeasurement(param: MenuItem): void {
     this.measurementsService.getMeasurement(param.name as string, this.resultsLimit).subscribe(data => {
       this.dataChart = this.chartService.createDataForChart(data);
     })
   }
 
-  getDateMeasurement() {
-    this.measurementsService.dateSubject.subscribe((choosenDate: string) => {
+  getDateMeasurement(): void {
+    this.measurementsService.dateSubject$.subscribe((choosenDate: string) => {
       this.measurementsService.getDateMeasurement(this.selectedParameter.name as string, choosenDate).subscribe(data => {
         this.dataChart = this.chartService.createDataForChart(data);
       });
