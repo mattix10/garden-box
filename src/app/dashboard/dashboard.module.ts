@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './dashboard.component';
-import { BottomBarComponent } from '../shared/bottom-bar/bottom-bar.component';
-import { PanelMenuItemComponent } from '../shared/panel-menu-item/panel-menu-item.component';
-import { TopbarComponent } from '../shared/topbar/topbar.component';
+import { BottomBarComponent } from './bottom-bar/bottom-bar.component';
+import { PanelMenuItemComponent } from './panel-menu-item/panel-menu-item.component';
+import { TopbarComponent } from './topbar/topbar.component';
 import { StatsComponent } from './stats/stats.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { SharedModule } from '../shared/shared.module';
@@ -14,9 +14,8 @@ import { MeasurementsService } from '../core/services/measurements.service';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { SidenavItemComponent } from './sidenav-item/sidenav-item.component';
 import { MainParameterComponent } from './main-parameter/main-parameter.component';
-import { GeneralInfoComponent } from './general-info/general-info.component';
 import { MainChartComponent } from './main-chart/main-chart.component';
-import { MainDeviceComponent } from './main-device/main-device.component';
+import { PlantInfoComponent } from './plant-info/plant-info.component';
 import { MainInfoComponent } from './main-info/main-info.component';
 import { MainTableComponent } from './main-table/main-table.component';
 import { GoogleChartsModule } from 'angular-google-charts';
@@ -29,6 +28,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { EmptyDataComponent } from './empty-data/empty-data.component';
 import { environment } from 'src/environments/environment';
 import { GalleryComponent } from './gallery/gallery.component';
+import { TableComponent } from './table/table.component';
 
 const SOCKET_URL = environment.SOCKET_URL;
 const config: SocketIoConfig = { url: SOCKET_URL, options: {transports: ['websocket'], upgrade: false} };
@@ -44,15 +44,15 @@ const config: SocketIoConfig = { url: SOCKET_URL, options: {transports: ['websoc
     SidenavComponent,
     SidenavItemComponent,
     MainParameterComponent,
-    GeneralInfoComponent,
     MainChartComponent,
-    MainDeviceComponent,
+    PlantInfoComponent,
     MainInfoComponent,
     MainTableComponent,
     ParameterTitleComponent,
     ParameterComponent,
     EmptyDataComponent,
     GalleryComponent,
+    TableComponent
   ],
   imports: [
     CommonModule,
