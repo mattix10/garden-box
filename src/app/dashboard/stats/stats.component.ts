@@ -15,13 +15,13 @@ export class StatsComponent implements OnInit {
     this.selectedDate = new Date();
     this.currentDate = new Date()
     const formattedDate = this.formatDate();
-    this.measurementsService.dateSubject.next(formattedDate);
+    this.measurementsService.dateSubject$.next(formattedDate);
   }
 
-  onSelectedChange(event: any) {
+  onSelectedChange(event: any): void {
     this.selectedDate = event;
     const formattedDate = this.formatDate();
-    this.measurementsService.dateSubject.next(formattedDate);
+    this.measurementsService.dateSubject$.next(formattedDate);
   }
 
   formatDate(): string {
