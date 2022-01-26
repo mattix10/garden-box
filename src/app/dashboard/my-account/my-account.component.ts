@@ -22,17 +22,12 @@ export class MyAccountComponent implements OnInit {
     this.email = decoded?.email;
   }
 
-  editPassword() {
-    this.editMode = true;
-  }
-
-  save() {
-    console.log(this.newPassword)
+  save(): void {
     this.editMode = false;
     this.myAccountService.editPassword(this.email, this.newPassword.value)
   }
 
-  logout() {
+  logout(): void {
     this.authService.logout();
   }
 

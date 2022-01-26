@@ -8,7 +8,8 @@
       <p>{{email}}</p>
     </div>
     <div class="">
-      <h4>Zmień hasło <span class="material-icons" title="edytuj" (click)="editPassword()" *ngIf="!editMode">
+      <h4>Zmień hasło
+        <span class="material-icons" title="edytuj" (click)="editMode = true" *ngIf="!editMode">
           mode_edit
         </span>
       </h4>
