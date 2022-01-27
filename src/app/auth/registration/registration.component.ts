@@ -46,7 +46,6 @@ export class RegistrationComponent {
           this.router.navigateByUrl('/zaloguj');
         }),
         (err: any) => {
-        console.log('here2')
         console.log(err)
         this.errorMessage = err.error.message;
       };
