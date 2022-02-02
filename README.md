@@ -19,7 +19,7 @@ The user can check the statistics and measurement results from different days. T
 
 ![Statistics](./src/assets/img/stats.jpg)
 ## Mobile devices
-To improve the application experience, a mobile-first approach was used - first the focus was on users of mobile phones and other mobile devices, designing and implementing views in such a way that it is easy to use the application with only a thumb or fingers. Next, the focus was on adjusting the displayed content for devices with higher resolution, i.e. laptops and monitors, trying to place all the information necessary for the user in a convenient place for him.
+To improve the application experience, a mobile-first approach was used - first the focus was on users of mobile phones and other mobile devices, designing and implementing views in such a way that it is easy to use the application with only a thumb or fingers. Next, the focus was on adjusting the displayed content for devices with higher resolution, i.e. laptops and monitors, trying to place all the information necessary for the users in a convenient place for them.
 
 ![App view on mobile devices](./src/assets/img/mobile.jpg)
 
