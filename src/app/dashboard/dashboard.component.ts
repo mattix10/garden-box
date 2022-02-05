@@ -7,6 +7,7 @@ import { SocketService } from '../core/services/socket.service';
 import { distinctUntilChanged, filter } from 'rxjs/operators';
 import { Measurement } from '../core/interfaces/Measurement';
 import { MenuItem } from '../core/interfaces/MenuItem';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -19,6 +20,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   isTabletResolution: boolean = false;
   paramaterMeasurements: Measurement[] = [];
   params: string[] = [];
+  subscription: Subscription;
 
   constructor(private socketService: SocketService, public router: Router, private menuItemsService: MenuItemsService, public breakpointObserver: BreakpointObserver) { }
 
@@ -49,7 +51,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   listenResults(measurements: Measurement[]) {
-    this.socketService.listenAllParameters(this.params)
+    this.subscription = this.socketService.listenAllParameters(this.params)
       .pipe(distinctUntilChanged())
       .subscribe((data: Measurement) => {
         let measurementIndex = measurements?.findIndex((m: Measurement) => m?.name == data?.name);
@@ -61,7 +63,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.socketService.removeListeners()
+    this.socketService.removeListeners();
+    this.subscription.unsubscribe();
   }
 
   private getResolution(): void {
