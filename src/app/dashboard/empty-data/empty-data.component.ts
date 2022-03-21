@@ -7,6 +7,15 @@ import { Component } from '@angular/core';
 })
 export class EmptyDataComponent {
 
+  message: string;
   constructor() { }
+
+  ngOnInit() {
+     this.setMessage();
+  }
+
+  private setMessage() {
+    this.message = 'Brak danych do wyświetlenia.';
+  }
 
 }
